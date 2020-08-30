@@ -1,7 +1,7 @@
 package wmap
 
 import (
-
+	"github.com/lolodin/infworld/chunk"
 	"fmt"
 	"testing"
 )
