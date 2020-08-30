@@ -1,3 +1,3 @@
-module github.com/Lolodin/infworld.git
+module github.com/lolodin/infworld
 
 go 1.13

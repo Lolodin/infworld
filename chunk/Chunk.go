@@ -13,7 +13,7 @@ const TILE_SIZE = 32
 const CHUNK_SIZE = 32 * 32
 const PERLIN_SEED float32 = 2300
 
-// Чанк который хранит тайтлы и другие игровые объекты
+// Чанк который хранит тайтлы и другие игровые объектыg
 type Chunk struct {
 	ChunkID [2]int
 	Map     map[Coordinate]Tile

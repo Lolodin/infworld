@@ -1,8 +1,8 @@
 package wmap
 
 import (
-	"github.com/lolodin/infworld/chunk"
 	"fmt"
+	"github.com/Lolodin/infworld/chunk"
 )
 
 type queue interface {
