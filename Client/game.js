@@ -1,16 +1,12 @@
-//import {TopDownClient} from "./TopDownClient.js";
-import {PlayerScene} from "./PlayerScene.js";
+import {TopDownClient} from "./TopDownClient.js";
 import {GameMenu} from "./GameMenu.js";
 
 
 let config = {
     /*eslint no-undef:0*/
-    scale: {
-        mode: Phaser.Scale.ENVELOP,
-        autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 1920   ,
-        height: 1080
-    },
+
+    width: 1200,
+    height: 756,
     dom: {
         createContainer: true
     },
@@ -22,7 +18,7 @@ let config = {
             overlapBias: 1
         }
     },
-    scene:[PlayerScene],
+    scene:[TopDownClient],
     pixelArt: true,
     roundPixels: true,
     antialias: true

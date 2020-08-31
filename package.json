@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Lolodin/MMORPG.git"
+    "url": "git+https://github.com/Lolodin/infworld.git"
   },
   "author": "Lolodin",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Lolodin/MMORPG/issues"
+    "url": "https://github.com/Lolodin/infworld/issues"
   },
-  "homepage": "https://github.com/Lolodin/MMORPG#readme"
+  "homepage": "https://github.com/Lolodin/infworld#readme"
 }
