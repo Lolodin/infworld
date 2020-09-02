@@ -1,6 +1,7 @@
 import {Identification} from "./Identification.js";
 import {Players} from "./Players.js";
 import {GameMap} from "./Map.js";
+import {MOVE}  from "./Action.js"
 
 export {TopDownClient}
 
@@ -82,25 +83,24 @@ class TopDownClient extends Phaser.Scene{
         //Вынести в глобал
         let cursors = this.input.keyboard.createCursorKeys();
         if (cursors.left.isDown) {
-            this.ID.x-=1
+           let playerRequest = {action: MOVE,id:this.ID.Name, x:-1, y:0}
+            this.websocket.send(JSON.stringify(playerRequest))
         }
         if (cursors.right.isDown) {
             this.ID.x+=1
+            let playerRequest = {action: MOVE,id:this.ID.Name, x:1, y:0}
+            this.websocket.send(JSON.stringify(playerRequest))
         }
         if (cursors.up.isDown) {
             this.ID.y-=1
+            let playerRequest = {action: MOVE,id:this.ID.Name, x:0, y:-1}
+            this.websocket.send(JSON.stringify(playerRequest))
         }
         if (cursors.down.isDown) {
             this.ID.y+=1
+            let playerRequest = {action: MOVE,id:this.ID.Name, x:0, y:1}
+            this.websocket.send(JSON.stringify(playerRequest))
         }
-
-
-        if (this.websocket.readyState === 1) {
-            let playerData = {name: this.ID.Name,  x: this.ID.x, y: this.ID.y}
-            this.websocket.send(JSON.stringify(playerData))
-        }
-
-
 
         let  nowChunk = this.getChunkID(this.ID.x, this.ID.y)
         if (nowChunk[0]!= this.CurrentChunk[0] || nowChunk[1]!=this.CurrentChunk[1]) {

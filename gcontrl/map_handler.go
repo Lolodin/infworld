@@ -3,22 +3,15 @@ package gcontrl
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/lolodin/infworld/chunk"
 	"github.com/lolodin/infworld/wmap"
 	log "github.com/sirupsen/logrus"
-	"golang.org/x/net/websocket"
 	"io/ioutil"
 	"net/http"
 )
-
 type requestMap struct {
 	X        int
 	Y        int
 	PlayerID int
-}
-type pingPlayer struct {
-	Name string `json:"name"`
-	chunk.Coordinate
 }
 
 func Map_Handler(W *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {
@@ -50,36 +43,5 @@ func Map_Handler(W *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {
 
 }
 
-func PlayerHandler(W *wmap.WorldMap) func(ws *websocket.Conn) {
-	return func(ws *websocket.Conn) {
-		defer func() {
-			if err := recover(); err != nil {
-				log.WithFields(log.Fields{
-					"package": "GameController",
-					"func":    "PlayerHandler",
-					"error":   err,
-				}).Error("Error ws")
-			}
 
-		}()
-
-		player := pingPlayer{}
-		websocket.JSON.Receive(ws, &player)
-		//Game Loop
-		log.WithFields(log.Fields{
-			"package": "GameController",
-			"func":    "PlayerHandler",
-			"player":  player,
-		}).Info("Connect player")
-
-
-		//ws handler
-		for {
-			//refactoring
-
-
-		}
-
-	}
-}
 
