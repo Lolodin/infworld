@@ -4,6 +4,7 @@ import (
 	"github.com/lolodin/infworld/chunk"
 	"fmt"
 	log "github.com/sirupsen/logrus"
+	"math"
 	"sync"
 )
 
@@ -86,11 +87,17 @@ func (w *WorldMap) MovePlayer(m Mover) {
 	w.Unlock()
 	x,y :=m.GetCoordinate()
 	if ok {
-		p.X = p.X + x
-		p.Y = p.Y + y
-		w.Lock()
-		w.Player[id] = p
-		w.Unlock()
+		x = p.X + x*p.speed
+		y = p.Y + y*p.speed
+		t:=chunk.Coordinate{x,y}
+		if b :=w.CheckBusyTile(t); b {
+			fmt.Println(b, "busy")
+			return
+		}
+		p.X = x
+		p.Y = y
+
+
 
 	} else {
 		fmt.Println("Player is not Exile")
@@ -110,13 +117,15 @@ func (w *WorldMap) GetPlayers() Players {
 }
 
 // return true if Tree busy tile
-func (w *WorldMap) CheckBusyTile(PX, PY int) bool {
-	chunkId := GetChunkID(PX, PY)
+func (w *WorldMap) CheckBusyTile(coordinater chunk.Coordinater) bool {
+	x,y:= coordinater.GetCoordinate()
+	tile := CurrentTile(coordinater)
+	fmt.Println(tile, "debug", x,y)
+	chunkId := GetChunkID(x,y)
 	w.Lock()
 	defer w.Unlock()
-	b := w.Chunks[chunkId].Map[chunk.Coordinate{X: PX, Y: PY}].Busy
-	c := w.Chunks[chunkId].Map[chunk.Coordinate{X: PX, Y: PY}].Key
-	return b && c == "Water"
+	b := w.Chunks[chunkId].Map[tile].Busy
+	return b
 
 }
 
@@ -128,5 +137,57 @@ func (w *WorldMap) GetPlayer(name string) (*Player, bool) {
 	} else {
 		return &Player{}, ok
 	}
+
+}
+func CurrentTile(coordinater chunk.Coordinater) (chunk.Coordinate) {
+	x,y := coordinater.GetCoordinate()
+	tileX := float64(x)/float64(chunk.TILE_SIZE)
+	tileY := float64(y)/float64(chunk.TILE_SIZE)
+	if tileX<0 {
+		x= int(math.Ceil(tileX))
+	} else {
+		x= int(math.Floor(tileX))
+	}
+	if tileY<0 {
+		y= int(math.Ceil(tileY))
+	} else {
+		y= int(math.Floor(tileY))
+	}
+	var resX, resY int
+	if x == 1 || x ==-1 {
+		resX = morthxy(x)
+	}
+	if y == 1 || y ==-1 {
+		resY = morthxy(y)
+	}
+	if resX == 0 {
+		if x<0 {
+			resX = x*16-8
+		} else {
+			resX = x*16+8
+		}
+
+	}
+	if resY == 0 {
+		if y<0 {
+			resY = y*16-8
+		} else {
+			resY = y*16+8
+		}
+	}
+
+	return chunk.Coordinate{X:resX, Y: resY}
+
+
+}
+
+func morthxy(x int) int {
+	if x == 1 {
+		x = x*8
+	}
+	if x == -1 {
+		x = x*8
+	}
+	return x
 
 }

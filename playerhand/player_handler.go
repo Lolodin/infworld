@@ -78,7 +78,12 @@ go func() {
 				req := PlayerResponseMOVE{}
 				json.Unmarshal(msg, &req)
 				W.MovePlayer(req)
+			log.WithFields(log.Fields{
+				"func":    "PlayerHandler",
+				"Player": req,
+			}).Info("MOVE")
 		}
+
 		/* ответ сервера - положение игроков*/
 		pls:= W.GetPlayers()
 		err=encoder.Encode(&pls)

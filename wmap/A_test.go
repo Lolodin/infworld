@@ -1,8 +1,8 @@
 package wmap
 
 import (
-	"Test/chunk"
 	"fmt"
+	"github.com/lolodin/infworld/chunk"
 	"testing"
 )
 
@@ -48,7 +48,7 @@ func TestAstar(t *testing.T) {
 	c := GetChunkID(person.X, person.Y)
 	d := GetCurrentPlayerMap(c)
 	_ = GetPlayerDrawChunkMap(d, &World)
-	a := World.CheckBusyTile(target.X, target.Y)
+	a := World.CheckBusyTile(target)
 	fmt.Println(target)
 	if a {
 		panic("Chunk is Busy")

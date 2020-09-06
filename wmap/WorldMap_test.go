@@ -1,8 +1,8 @@
 package wmap
 
 import (
-	"github.com/lolodin/infworld/chunk"
 	"fmt"
+	"github.com/lolodin/infworld/chunk"
 	"testing"
 )
 
@@ -22,5 +22,23 @@ func TestGetChankID(t *testing.T) {
 		t := GetChunkID(testValue.X, testValue.Y)
 		fmt.Println(t == testValue.Result, t)
 	}
+
+}
+func TestCurrentTile(t *testing.T) {
+	c:=chunk.Coordinate{X:86, Y:35}
+	x:=CurrentTile(c)
+	if x.X != 88 || x.Y != 40 {
+		t.Error("Coordinate not correct", x)
+		return
+	}
+	t.Log("Test positive ok", x)
+	c=chunk.Coordinate{X:-107, Y:-1352} // -104
+	x=CurrentTile(c) //-104;-1352
+	if x.X != -104 || x.Y != -1352 {
+		t.Error("Coordinate not correct", x)
+		return
+	}
+	t.Log("Test negative ok", x)
+
 
 }

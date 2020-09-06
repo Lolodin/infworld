@@ -1,7 +1,6 @@
 package wmap
 
 import (
-	"github.com/lolodin/infworld/chunk"
 	"sync"
 )
 
@@ -26,14 +25,14 @@ func NewPlayer(n, password string) *Player {
 	p.Y = 16
 	p.Name = n
 	p.password = password
-	p.speed = 15
+	p.speed = 3
 	p.move = false
 
 	return &p
 
 }
-func (p *Player) GetPlayerXY() chunk.Coordinate {
-	return chunk.Coordinate{X: p.X, Y: p.Y}
+func (p *Player) GetCoordinate() (x, y int) {
+	return p.X,  p.Y
 }
 
 func (p *Player) SetPassword(pass string) {

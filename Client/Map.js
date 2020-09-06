@@ -29,7 +29,7 @@ class GameMap {
             } else {
                 tile = this.scene.add.image(chunk[coordTile].x, chunk[coordTile].y,chunk[coordTile].key )
             }
-            tile.setDepth(1)
+            tile.setDepth(tile.y -30)
             tile.setInteractive()
             this.scene.CurrentMap[chunkID].add(tile)
 
@@ -43,8 +43,15 @@ class GameMap {
         this.scene.LoadChunksTree[chunkID] = true
         for (let coordTile in chunk) {
             let tree
-            tree = this.scene.add.image(chunk[coordTile].x, chunk[coordTile].y,chunk[coordTile].tree)
-            tree.setDepth(chunk[coordTile].y+12)
+            //Поднимаем дерево на закрытый тайл
+            let yNumber
+            if (chunk[coordTile].y<0) {
+                yNumber = -12
+            } else {
+                yNumber = 0
+            }
+            tree = this.scene.add.image(chunk[coordTile].x, chunk[coordTile].y + yNumber,chunk[coordTile].tree)
+            tree.setDepth(chunk[coordTile].y+5)
             tree.setRotation(chunk[coordTile].age/5)
             this.scene.CurrentMap[chunkID].add(tree)
         }
