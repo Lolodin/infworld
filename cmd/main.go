@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/lolodin/infworld/gcontrl"
+	"github.com/lolodin/infworld/playerhand"
 	"github.com/lolodin/infworld/wmap"
 	log "github.com/sirupsen/logrus"
-	"golang.org/x/net/websocket"
 	"html/template"
 	"net/http"
 	"os"
@@ -26,7 +26,7 @@ func main() {
 	World := wmap.NewCacheWorldMap()
 	http.HandleFunc("/init", gcontrl.InitHandler(&World))
 	http.HandleFunc("/map", gcontrl.Map_Handler(&World))
-	http.Handle("/player", websocket.Handler(gcontrl.PlayerHandler(&World)))
+	http.HandleFunc("/player", playerhand.PlayerHandler(&World))
 	http.HandleFunc("/", indexHandler)
 
 	//static

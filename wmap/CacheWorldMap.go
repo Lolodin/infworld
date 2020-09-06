@@ -7,6 +7,11 @@ import (
 	"sync"
 )
 
+type Mover interface {
+	chunk.Coordinater
+	GetId() string
+}
+
 type WorldMap struct {
 	sync.Mutex
 	Chunks map[chunk.Coordinate]chunk.Chunk
@@ -74,16 +79,17 @@ func (w *WorldMap) AddPlayer(player *Player) {
 }
 
 // Обновляем данные персонажа в мире
-func (w *WorldMap) UpdatePlayer(player Player) {
+func (w *WorldMap) MovePlayer(m Mover) {
+	id:= m.GetId()
 	w.Lock()
-	p, ok := w.Player[player.Name]
+	p, ok := w.Player[id]
 	w.Unlock()
+	x,y :=m.GetCoordinate()
 	if ok {
-
-		p.X = player.X
-		p.Y = player.Y
+		p.X = p.X + x
+		p.Y = p.Y + y
 		w.Lock()
-		w.Player[player.Name] = p
+		w.Player[id] = p
 		w.Unlock()
 
 	} else {

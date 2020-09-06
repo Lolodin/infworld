@@ -1,5 +1,5 @@
 
-const MOVE = 1;
+const MOVE = 100;
 
 export {MOVE}
 

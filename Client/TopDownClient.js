@@ -60,20 +60,15 @@ class TopDownClient extends Phaser.Scene{
         this.CurrentChunk =  this.getChunkID(this.ID.x,this.ID.y)
         this.cameras.main.startFollow(this.ID, true)
         this.coordinate = this.getCurrentMap(this.CurrentChunk)
-        this.websocket.onmessage = (e)=> {
-            //  console.log("on message")
-            let players = e.data
-            players = JSON.parse(players)
-            //  console.log(players)
-            this.Players.DrawPlayer(players.players)
-        }
         /*
         Рисуем игроков на игровой карте
          */
+
         this.websocket.onmessage = (e)=> {
+            console.log(e)
             let players = e.data
             players = JSON.parse(players)
-            console.log(players)
+            console.log(players, "получаем данные от сервера")
             this.Players.DrawPlayer(players.players)
         }
         console.log(this.CurrentMap)

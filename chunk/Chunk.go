@@ -14,7 +14,7 @@ const CHUNK_SIZE = 16 * 16
 const PERLIN_SEED float32 = 2300
 
 type Coordinater interface {
-	getCoordinate() (x, y int)
+	GetCoordinate() (x, y int)
 }
 
 // Чанк который хранит тайтлы и другие игровые объекты
@@ -42,7 +42,7 @@ type Coordinate struct {
 	Y int `json:"y"`
 }
 
-func (c Coordinate) getCoordinate() (x, y int) {
+func (c Coordinate) GetCoordinate() (x, y int) {
 	return c.X, c.Y
 }
 

@@ -1,3 +1,3 @@
 package action
 
-const MOVE  = 1
+const MOVE  = 100
