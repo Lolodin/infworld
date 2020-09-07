@@ -17,7 +17,7 @@ type WorldMap struct {
 	sync.Mutex
 	Chunks map[chunk.Coordinate]chunk.Chunk
 	Player map[string]*Player
-	Tree   *chunk.Tree
+
 }
 
 //Возвращает чанк соответствующий координатам, возвращает ошибку если такого чанка не существует
@@ -139,6 +139,7 @@ func (w *WorldMap) GetPlayer(name string) (*Player, bool) {
 	}
 
 }
+//Врзвращает координаты тайла которому принадлежит область
 func CurrentTile(coordinater chunk.Coordinater) (chunk.Coordinate) {
 	x,y := coordinater.GetCoordinate()
 	tileX := float64(x)/float64(chunk.TILE_SIZE)
@@ -180,7 +181,7 @@ func CurrentTile(coordinater chunk.Coordinater) (chunk.Coordinate) {
 
 
 }
-
+// изменяет координаты при int  1 и -1 для функции CurrentTile
 func morthxy(x int) int {
 	if x == 1 {
 		x = x*8
@@ -190,4 +191,7 @@ func morthxy(x int) int {
 	}
 	return x
 
+}
+func (w *WorldMap) Treehandler(coordinater chunk.Coordinater)  {
+	//w.GetChunk()
 }

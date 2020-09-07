@@ -60,6 +60,10 @@ class TopDownClient extends Phaser.Scene{
         this.CurrentChunk =  this.getChunkID(this.ID.x,this.ID.y)
         this.cameras.main.startFollow(this.ID, true)
         this.coordinate = this.getCurrentMap(this.CurrentChunk)
+        this.input.on('gameobjectup', function (pointer, gameObject)
+        {
+            gameObject.emit('clicked', gameObject);
+        }, this);
         /*
         Рисуем игроков на игровой карте
          */

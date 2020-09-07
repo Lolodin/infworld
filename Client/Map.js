@@ -53,6 +53,8 @@ class GameMap {
             tree = this.scene.add.image(chunk[coordTile].x, chunk[coordTile].y + yNumber,chunk[coordTile].tree)
             tree.setDepth(chunk[coordTile].y+5)
             tree.setRotation(chunk[coordTile].age/5)
+            tree.setInteractive()
+            tree.on('clicked', this.clickTree, this)
             this.scene.CurrentMap[chunkID].add(tree)
         }
 
@@ -83,5 +85,8 @@ class GameMap {
             }
 
         }
+    }
+    clickTree(objTree) {
+console.log("click tree", objTree)
     }
 }

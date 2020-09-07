@@ -20,6 +20,10 @@ type PlayerResponseMOVE struct {
 	Id string `json:"id"`
 	chunk.Coordinate
 }
+type PlayerResponseTREE struct {
+	Id string `json:"id"`
+	chunk.Coordinate
+}
 
 func(p PlayerResponseMOVE) GetId() string {
 	return p.Id
@@ -82,6 +86,12 @@ go func() {
 				"func":    "PlayerHandler",
 				"Player": req,
 			}).Info("MOVE")
+		case action.TREE:
+				req:= PlayerResponseTREE{}
+				json.Unmarshal(msg, &req)
+				fmt.Println(req)
+
+
 		}
 
 		/* ответ сервера - положение игроков*/
