@@ -1,3 +1,5 @@
+import {TREE} from "./Action.js";
+
 export {GameMap}
 class GameMap {
     constructor(scene) {
@@ -87,6 +89,8 @@ class GameMap {
         }
     }
     clickTree(objTree) {
-console.log("click tree", objTree)
+        let playerRequest = {action: TREE,id:this.scene.ID.Name, x:objTree.x, y:objTree.y}
+        console.log(playerRequest)
+        this.scene.websocket.send(JSON.stringify(playerRequest))
     }
 }

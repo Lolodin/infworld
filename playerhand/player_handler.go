@@ -75,7 +75,8 @@ go func() {
 		a, e := strconv.Atoi(str)
 		if e != nil {
 			fmt.Println("Error conv json")
-		}		
+		}
+		fmt.Println(str)
 		
 		switch a {
 		case action.MOVE:
