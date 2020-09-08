@@ -193,5 +193,13 @@ func morthxy(x int) int {
 
 }
 func (w *WorldMap) Treehandler(coordinater chunk.Coordinater)  {
-	//w.GetChunk()
+	//x,y := coordinater.GetCoordinate
+	//
+	//if e != nil {
+	//	return
+	//}
+	//tree := c.Tree
+
+
+
 }
