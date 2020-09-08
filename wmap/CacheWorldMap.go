@@ -193,12 +193,13 @@ func morthxy(x int) int {
 
 }
 func (w *WorldMap) Treehandler(coordinater chunk.Coordinater)  {
-	//x,y := coordinater.GetCoordinate
-	//
-	//if e != nil {
-	//	return
-	//}
-	//tree := c.Tree
+	x,y := coordinater.GetCoordinate()
+	id:=GetChunkID(x,y)
+	w.Lock()
+	tree := w.Chunks[id].Tree[chunk.Coordinate{X:x, Y:y}]
+	tile := w.Chunks[id].Map[chunk.Coordinate{X:x, Y:y}]
+	w.Unlock()
+	tile.Busy = false
 
 
 

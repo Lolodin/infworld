@@ -2,6 +2,7 @@ import {Identification} from "./Identification.js";
 import {Players} from "./Players.js";
 import {GameMap} from "./Map.js";
 import {MOVE}  from "./Action.js"
+import {Controller} from './GameController.js'
 
 export {TopDownClient}
 
@@ -68,14 +69,8 @@ class TopDownClient extends Phaser.Scene{
         Рисуем игроков на игровой карте
          */
 
-        this.websocket.onmessage = (e)=> {
-            console.log(e)
-            let players = e.data
-            players = JSON.parse(players)
-            console.log(players, "получаем данные от сервера")
-            this.Players.DrawPlayer(players.players)
-        }
-        console.log(this.CurrentMap)
+
+        this.Controller = new Controller(this, this.Map, this.Players)
 
     }
     update(time, delta) {
