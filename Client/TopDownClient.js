@@ -2,7 +2,7 @@ import {Identification} from "./Identification.js";
 import {Players} from "./Players.js";
 import {GameMap} from "./Map.js";
 import {MOVE}  from "./Action.js"
-import {Controller} from './GameController.js'
+import Controller from './Controller.js'
 
 export {TopDownClient}
 
@@ -71,6 +71,7 @@ class TopDownClient extends Phaser.Scene{
 
 
         this.Controller = new Controller(this, this.Map, this.Players)
+        this.Controller.listner()
 
     }
     update(time, delta) {

@@ -7,6 +7,7 @@ import (
 	"github.com/gobwas/ws/wsutil"
 	"github.com/lolodin/infworld/action"
 	"github.com/lolodin/infworld/chunk"
+	"github.com/lolodin/infworld/gamereducer"
 	"github.com/lolodin/infworld/wmap"
 	log "github.com/sirupsen/logrus"
 	"net/http"
@@ -31,15 +32,14 @@ func(p PlayerResponseMOVE) GetId() string {
 
 
 
-func PlayerHandler(W *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {
+func PlayerHandler(W *wmap.WorldMap, eventch chan<- struct{}) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		conn, _, _, e :=ws.UpgradeHTTP(r,w)
-		wr:= wsutil.NewWriter(conn, ws.StateServerSide, ws.OpText)
-		encoder := json.NewEncoder(wr)
 		if e!=nil {
 			fmt.Println(e)
 		}
-
+		//Добавить реальные x, y
+		gamereducer.NewPlayerConn(conn, 16, 16)
 		defer func() {
 			if err := recover(); err != nil {
 				log.WithFields(log.Fields{
@@ -83,6 +83,7 @@ go func() {
 				req := PlayerResponseMOVE{}
 				json.Unmarshal(msg, &req)
 				W.MovePlayer(req)
+				eventch <- struct{}{}
 			log.WithFields(log.Fields{
 				"func":    "PlayerHandler",
 				"Player": req,
@@ -96,19 +97,11 @@ go func() {
 		}
 
 		/* ответ сервера - положение игроков*/
-		pls:= W.GetPlayers()
-		err=encoder.Encode(&pls)
-		if err != nil {
-			fmt.Println(err)
-		}
-		 err = wr.Flush()
-		if err != nil {
-			fmt.Println(err)
-		}
 
 
 
 	}
 }()
+
 	}
 }
