@@ -8,6 +8,8 @@ import (
 	"sync"
 )
 
+const VIGILANCE = 512
+
 type Mover interface {
 	chunk.Coordinater
 	GetId() string
@@ -80,8 +82,9 @@ func (w *WorldMap) AddPlayer(player *Player) {
 }
 
 // Обновляем данные персонажа в мире
-func (w *WorldMap) MovePlayer(m Mover) {
+func (w *WorldMap) MovePlayer(m Mover) *chunk.Coordinate {
 	id:= m.GetId()
+
 	w.Lock()
 	p, ok := w.Player[id]
 	w.Unlock()
@@ -92,25 +95,31 @@ func (w *WorldMap) MovePlayer(m Mover) {
 		t:=chunk.Coordinate{x,y}
 		if b :=w.CheckBusyTile(t); b {
 			fmt.Println(b, "busy")
-			return
+			return nil
 		}
 		p.X = x
 		p.Y = y
+
+		return &chunk.Coordinate{x,y}
 
 
 
 	} else {
 		fmt.Println("Player is not Exile")
 	}
+	return nil
 
 }
 
-//map players
-func (w *WorldMap) GetPlayers() Players {
+//Получаем координаты от кого пришел запрос и получаем данные для кого эти изменения актуальны
+func (w *WorldMap) GetPlayers(coordinater chunk.Coordinater) Players {
+
 	pls := Players{}
 	w.Lock()
 	for _, P := range w.Player {
-		pls.P = append(pls.P, *P)
+		if ok:=CalcDistantion(P, coordinater); ok {
+			pls.P = append(pls.P, *P)
+		}
 	}
 	w.Unlock()
 	return pls
@@ -131,11 +140,13 @@ func (w *WorldMap) CheckBusyTile(coordinater chunk.Coordinater) bool {
 
 //Получить player
 func (w *WorldMap) GetPlayer(name string) (*Player, bool) {
+	w.Lock()
 	pl, ok := w.Player[name]
+	w.Unlock()
 	if ok {
 		return pl, ok
 	} else {
-		return &Player{}, ok
+		return nil, ok
 	}
 
 }
@@ -200,7 +211,19 @@ func (w *WorldMap) Treehandler(coordinater chunk.Coordinater)  {
 	tile := w.Chunks[id].Map[chunk.Coordinate{X:x, Y:y}]
 	w.Unlock()
 	tile.Busy = false
+}
+//Возвращает true если для данных координат изменения актуальны
+func CalcDistantion(coordinater chunk.Coordinater, target chunk.Coordinater) bool {
+	x,y := coordinater.GetCoordinate()
+	x1, y1 := target.GetCoordinate()
+	P := chunk.Coordinate{X:x, Y:y}
+	calX1:= P.X - VIGILANCE
+	calX2:= P.X + VIGILANCE
 
-
-
+	calY1:= P.Y - VIGILANCE
+	calY2:= P.Y + VIGILANCE
+	if (x1>calX1 && x1<calX2) && (y1>calY1 && y1<calY2) {
+		return true
+	}
+	return false
 }

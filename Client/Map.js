@@ -6,9 +6,10 @@ class GameMap {
         this.scene = scene
     }
     drawMapController(requstMapServer) {
+        console.log(requstMapServer)
         for (let i = 0; i<9;i++) {
-            this.drawTileChunk(requstMapServer.CurrentMap[i].Map,  requstMapServer.CurrentMap[i].ChunkID)
-            this.drawTree(requstMapServer.CurrentMap[i].Tree, requstMapServer.CurrentMap[i].ChunkID )
+            this.drawTileChunk(requstMapServer[i].Map,  requstMapServer[i].ChunkID)
+            this.drawTree(requstMapServer[i].Tree, requstMapServer[i].ChunkID )
         }
     }
     drawTileChunk(chunk, chunkID) {

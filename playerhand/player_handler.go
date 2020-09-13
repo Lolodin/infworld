@@ -25,21 +25,35 @@ type PlayerResponseTREE struct {
 	Id string `json:"id"`
 	chunk.Coordinate
 }
+type PlayerResponseGETMAP struct {
+	Id string `json:"id"`
+	chunk.Coordinate
+}
 
 func(p PlayerResponseMOVE) GetId() string {
+	return p.Id
+}
+func(p PlayerResponseGETMAP) GetId() string {
 	return p.Id
 }
 
 
 
-func PlayerHandler(W *wmap.WorldMap, eventch chan<- struct{}) func(http.ResponseWriter, *http.Request) {
+func PlayerHandler(W *wmap.WorldMap, eventMove chan<- chunk.Coordinater, EventGetMap chan <-gamereducer.Eventer) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		conn, _, _, e :=ws.UpgradeHTTP(r,w)
 		if e!=nil {
 			fmt.Println(e)
 		}
+		msg, _, err:=wsutil.ReadClientData(conn)
+		if err != nil {
+			fmt.Println(err)
+		}
+		getId := PlayerResponseMOVE{}
+		json.Unmarshal(msg, &getId)
+
 		//Добавить реальные x, y
-		gamereducer.NewPlayerConn(conn, 16, 16)
+		gamereducer.NewPlayerConn(conn, 16, 16, getId.Id)
 		defer func() {
 			if err := recover(); err != nil {
 				log.WithFields(log.Fields{
@@ -82,8 +96,11 @@ go func() {
 		case action.MOVE:
 				req := PlayerResponseMOVE{}
 				json.Unmarshal(msg, &req)
-				W.MovePlayer(req)
-				eventch <- struct{}{}
+				coord:=W.MovePlayer(req)
+				if coord == nil {
+					continue
+				}
+				eventMove <- coord
 			log.WithFields(log.Fields{
 				"func":    "PlayerHandler",
 				"Player": req,
@@ -92,6 +109,10 @@ go func() {
 				req:= PlayerResponseTREE{}
 				json.Unmarshal(msg, &req)
 				fmt.Println(req)
+		case action.GET_MAP:
+			req:= PlayerResponseGETMAP{}
+			json.Unmarshal(msg, &req)
+			EventGetMap<-req
 
 
 		}

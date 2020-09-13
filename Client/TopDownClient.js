@@ -1,8 +1,9 @@
 import {Identification} from "./Identification.js";
 import {Players} from "./Players.js";
 import {GameMap} from "./Map.js";
-import {MOVE}  from "./Action.js"
+import {MOVE, GETMAP}  from "./Action.js"
 import Controller from './Controller.js'
+
 
 export {TopDownClient}
 
@@ -42,7 +43,11 @@ class TopDownClient extends Phaser.Scene{
         this.websocket = new WebSocket("ws://localhost:8080/player")
         this.websocket.onopen = (e) => {
             console.log("OPEN", e)
+            let playerRequest = {action: MOVE,id:this.ID.Name, x:0, y:0}
+            this.websocket.send(JSON.stringify(playerRequest))
+            this.GetServerMap(this.ID.x,this.ID.x)
         }
+
 
 
 
@@ -56,8 +61,8 @@ class TopDownClient extends Phaser.Scene{
         });
         this.Players = new Players(this)
         this.Map = new GameMap(this)
-        this.GetServerMap(this.ID.x,this.ID.x)
-
+        this.Controller = new Controller(this, this.Map, this.Players)
+        this.Controller.listner()
         this.CurrentChunk =  this.getChunkID(this.ID.x,this.ID.y)
         this.cameras.main.startFollow(this.ID, true)
         this.coordinate = this.getCurrentMap(this.CurrentChunk)
@@ -70,8 +75,8 @@ class TopDownClient extends Phaser.Scene{
          */
 
 
-        this.Controller = new Controller(this, this.Map, this.Players)
-        this.Controller.listner()
+
+
 
     }
     update(time, delta) {
@@ -108,18 +113,20 @@ class TopDownClient extends Phaser.Scene{
 
     }
     // Получаем Игровую карту
-    async GetServerMap(X, Y) {
-        let Data = {x:X,y:Y, playerID:2}
-        let request = await fetch("/map", {
-            method: "POST",
-            body: JSON.stringify(Data)
+     GetServerMap(X, Y) {
+             let Data = {action: GETMAP, id: this.ID.Name, x: X, y: Y}
+             this.websocket.send(JSON.stringify(Data))
 
-        } )
-        request = await request.json() // request.CurrentMap[9].Map
-        /*
-        request = [9]Map, Map = Map["8,8"]{ Grass, X = 8, Y= 8}
-         */
-        this.Map.drawMapController(request)
+        // let request = await fetch("/map", {
+        //     method: "POST",
+        //     body: JSON.stringify(Data)
+        //
+        // } )
+        // request = await request.json() // request.CurrentMap[9].Map
+        // /*
+        // request = [9]Map, Map = Map["8,8"]{ Grass, X = 8, Y= 8}
+        //  */
+        // this.Map.drawMapController(request)
 
     }
     getChunkID(x, y) {

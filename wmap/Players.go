@@ -10,12 +10,15 @@ type Player struct {
 	X        int    `json:"x"`
 	Y        int    `json:"y"`
 	password string
-	speed    int
-	move     bool
+
 	//	AnimKey string
+	// Игровые характеристики
+	vigilance int //стандарт 512 дальность видимости игроков
+	speed    int //скорость, стандарт 1
 
 }
 type Players struct {
+	Action int `json:"action"`
 	P []Player `json:"players"`
 }
 
@@ -26,8 +29,7 @@ func NewPlayer(n, password string) *Player {
 	p.Name = n
 	p.password = password
 	p.speed = 3
-	p.move = false
-
+	p.vigilance = 512
 	return &p
 
 }

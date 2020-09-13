@@ -11,7 +11,7 @@ import (
 type requestMap struct {
 	X        int
 	Y        int
-	PlayerID int
+	PlayerID string
 }
 
 func Map_Handler(W *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {

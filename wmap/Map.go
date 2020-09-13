@@ -21,7 +21,7 @@ func (m *personMap) getTile(coordinate chunk.Coordinate) (chunk.Tile, error) {
 }
 
 type playerMap struct {
-	IDplayer int
+	IDplayer string
 	Map      [9]chunk.Chunk `json:"CurrentMap"`
 }
 
@@ -140,7 +140,7 @@ func GetPlayerDrawChunkMap(currentMap [9]chunk.Coordinate, W *WorldMap) personMa
 	return playerMap
 }
 
-func MapToJSON(m [9]chunk.Chunk, id int) []byte {
+func MapToJSON(m [9]chunk.Chunk, id string) []byte {
 	a := playerMap{
 		IDplayer: id,
 		Map:      m,

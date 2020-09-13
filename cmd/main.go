@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/lolodin/infworld/chunk"
 	"github.com/lolodin/infworld/gamereducer"
 	"github.com/lolodin/infworld/gcontrl"
 	"github.com/lolodin/infworld/playerhand"
@@ -10,7 +11,10 @@ import (
 	"net/http"
 	"os"
 )
-
+var (
+chEventMove = make(chan chunk.Coordinater)
+EventGetMap = make(chan gamereducer.Eventer)
+)
 func init() {
 
 	filelog, e := os.Create("log")
@@ -27,10 +31,11 @@ func main() {
 	World := wmap.NewCacheWorldMap()
 	http.HandleFunc("/init", gcontrl.InitHandler(&World))
 	http.HandleFunc("/map", gcontrl.Map_Handler(&World))
-	//Сигнал что юзер сделал действие
-	chEventMove := make(chan struct{})
+	//Сигнал действия юзера
+
 	go gamereducer.ListnerMoveEvent(chEventMove, &World)
-	http.HandleFunc("/player", playerhand.PlayerHandler(&World, chEventMove))
+	go gamereducer.ListnerGetMap(EventGetMap, &World)
+	http.HandleFunc("/player", playerhand.PlayerHandler(&World, chEventMove, EventGetMap))
 	http.HandleFunc("/", indexHandler)
 
 	//static
