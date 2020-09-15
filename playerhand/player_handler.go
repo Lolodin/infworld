@@ -39,7 +39,7 @@ func(p PlayerResponseGETMAP) GetId() string {
 
 
 
-func PlayerHandler(W *wmap.WorldMap, eventMove chan<- chunk.Coordinater, EventGetMap chan <-gamereducer.Eventer) func(http.ResponseWriter, *http.Request) {
+func PlayerHandler(W *wmap.WorldMap, eventMove chan<-gamereducer.Eventer, EventGetMap chan <-gamereducer.Eventer) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		conn, _, _, e :=ws.UpgradeHTTP(r,w)
 		if e!=nil {
@@ -97,10 +97,13 @@ go func() {
 				req := PlayerResponseMOVE{}
 				json.Unmarshal(msg, &req)
 				coord:=W.MovePlayer(req)
+				id := req.GetId()
 				if coord == nil {
 					continue
 				}
-				eventMove <- coord
+				req = PlayerResponseMOVE{id, *coord}
+
+				eventMove <- req
 			log.WithFields(log.Fields{
 				"func":    "PlayerHandler",
 				"Player": req,

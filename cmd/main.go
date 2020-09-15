@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/lolodin/infworld/chunk"
 	"github.com/lolodin/infworld/gamereducer"
 	"github.com/lolodin/infworld/gcontrl"
 	"github.com/lolodin/infworld/playerhand"
@@ -12,7 +11,7 @@ import (
 	"os"
 )
 var (
-chEventMove = make(chan chunk.Coordinater)
+chEventMove = make(chan gamereducer.Eventer)
 EventGetMap = make(chan gamereducer.Eventer)
 )
 func init() {

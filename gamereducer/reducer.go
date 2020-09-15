@@ -47,7 +47,7 @@ func NewPlayerConn(conn net.Conn, x,y int, idPlayer string) {
 
 }
 // Слушает события движения и отправляет данные нужным подключения 
-func ListnerMoveEvent(chEventMove <-chan chunk.Coordinater, w *wmap.WorldMap) {
+func ListnerMoveEvent(chEventMove <-chan Eventer, w *wmap.WorldMap) {
 	for  {
 		select {
 		case coord:=<-chEventMove:

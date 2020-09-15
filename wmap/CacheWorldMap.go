@@ -117,9 +117,9 @@ func (w *WorldMap) GetPlayers(coordinater chunk.Coordinater) Players {
 	pls := Players{}
 	w.Lock()
 	for _, P := range w.Player {
-		if ok:=CalcDistantion(P, coordinater); ok {
+
 			pls.P = append(pls.P, *P)
-		}
+
 	}
 	w.Unlock()
 	return pls
