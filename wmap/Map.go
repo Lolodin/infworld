@@ -14,7 +14,7 @@ func (m *personMap) getTile(coordinate chunk.Coordinate) (chunk.Tile, error) {
 	chunkID := GetChunkID(coordinate.X, coordinate.Y)
 	for _, v := range m {
 		if v.ChunkID == [2]int{chunkID.X, chunkID.Y} {
-			return v.Map[coordinate], nil
+			return *v.Map[coordinate], nil
 		}
 	}
 	return chunk.Tile{}, fmt.Errorf("Tile not Found")

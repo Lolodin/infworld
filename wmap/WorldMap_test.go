@@ -42,3 +42,25 @@ func TestCurrentTile(t *testing.T) {
 
 
 }
+func TestWorldMap_GetPlayers(t *testing.T) {
+	 w:= NewCacheWorldMap()
+	 p := Player{Name: "TEST", X: 16, Y: 16}
+	p1 := Player{Name: "TEST1", X: 17, Y: 17}
+	p2:= Player{Name: "TEST2", X: 18, Y: 18}
+	 w.AddPlayer(&p)
+	w.AddPlayer(&p1)
+	w.AddPlayer(&p2)
+
+	 testCoord := chunk.Coordinate{10000, 10000}
+	testCoord2 := chunk.Coordinate{-200, 120}
+	 pl:=w.GetPlayers(testCoord)
+	 if pl.P != nil {
+	 	t.Error("Wrong result")
+	 }
+	 pl2:= w.GetPlayers(testCoord2)
+	 t.Log(pl2)
+	 if pl2.P == nil {
+	 	t.Error("Wrong result")
+	 }
+
+}

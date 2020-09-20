@@ -12,8 +12,10 @@ import (
 )
 var (
 chEventMove = make(chan gamereducer.Eventer)
-EventGetMap = make(chan gamereducer.Eventer)
+chEventGetMap = make(chan gamereducer.Eventer)
+chEventTree = make(chan gamereducer.Eventer)
 )
+
 func init() {
 
 	filelog, e := os.Create("log")
@@ -33,8 +35,9 @@ func main() {
 	//Сигнал действия юзера
 
 	go gamereducer.ListnerMoveEvent(chEventMove, &World)
-	go gamereducer.ListnerGetMap(EventGetMap, &World)
-	http.HandleFunc("/player", playerhand.PlayerHandler(&World, chEventMove, EventGetMap))
+	go gamereducer.ListnerGetMap(chEventGetMap, &World)
+	//go gamereducer.ListnerTreeEvent(chEventTree, &World)
+	http.HandleFunc("/player", playerhand.PlayerHandler(&World, chEventMove, chEventGetMap, chEventTree))
 	http.HandleFunc("/", indexHandler)
 
 	//static

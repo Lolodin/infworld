@@ -33,13 +33,16 @@ type PlayerResponseGETMAP struct {
 func(p PlayerResponseMOVE) GetId() string {
 	return p.Id
 }
+func(p PlayerResponseTREE) GetId() string {
+	return p.Id
+}
 func(p PlayerResponseGETMAP) GetId() string {
 	return p.Id
 }
 
 
 
-func PlayerHandler(W *wmap.WorldMap, eventMove chan<-gamereducer.Eventer, EventGetMap chan <-gamereducer.Eventer) func(http.ResponseWriter, *http.Request) {
+func PlayerHandler(W *wmap.WorldMap, eventMove chan<-gamereducer.Eventer, EventGetMap chan <-gamereducer.Eventer, EventTree chan <- gamereducer.Eventer) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		conn, _, _, e :=ws.UpgradeHTTP(r,w)
 		if e!=nil {
@@ -52,18 +55,18 @@ func PlayerHandler(W *wmap.WorldMap, eventMove chan<-gamereducer.Eventer, EventG
 		getId := PlayerResponseMOVE{}
 		json.Unmarshal(msg, &getId)
 
-		//Добавить реальные x, y
-		gamereducer.NewPlayerConn(conn, 16, 16, getId.Id)
-		defer func() {
-			if err := recover(); err != nil {
-				log.WithFields(log.Fields{
-					"package": "GameController",
-					"func":    "PlayerHandler",
-					"error":   err,
-				}).Error("Error ws")
-			}
+		 p, ok:=W.GetPlayer(getId.Id)
+		if !ok {
+			log.Panic("Player not found")
+		}
 
+		gamereducer.NewPlayerConn(conn,  p)
+		getId.X = 0
+		getId.Y = 0
+		go func() {
+			eventMove<-getId
 		}()
+
 
 
 
@@ -78,9 +81,18 @@ func PlayerHandler(W *wmap.WorldMap, eventMove chan<-gamereducer.Eventer, EventG
 
 		//ws handler
 go func() {
+	defer func() {
+		if err := recover(); err != nil {
+			log.WithFields(log.Fields{
+				"package": "GameController",
+				"func":    "PlayerHandler",
+				"error":   err,
+			}).Error("Error ws")
+		}
 
+	}()
 	for {
-		
+
 		msg, _, err := wsutil.ReadClientData(conn)
 		if err != nil {
 			panic("conn cancel")
@@ -102,16 +114,12 @@ go func() {
 					continue
 				}
 				req = PlayerResponseMOVE{id, *coord}
-
 				eventMove <- req
-			log.WithFields(log.Fields{
-				"func":    "PlayerHandler",
-				"Player": req,
-			}).Info("MOVE")
 		case action.TREE:
 				req:= PlayerResponseTREE{}
 				json.Unmarshal(msg, &req)
-				fmt.Println(req)
+				EventTree <- req
+
 		case action.GET_MAP:
 			req:= PlayerResponseGETMAP{}
 			json.Unmarshal(msg, &req)
@@ -120,7 +128,7 @@ go func() {
 
 		}
 
-		/* ответ сервера - положение игроков*/
+
 
 
 

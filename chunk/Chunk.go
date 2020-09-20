@@ -5,9 +5,10 @@ import (
 	log "github.com/sirupsen/logrus"
 	"math/rand"
 	"strconv"
+	"sync"
 	"time"
 )
-
+var Mutex = sync.Mutex{}
 const CHUNKIDSIZE = 16
 const TILE_SIZE = 16
 const CHUNK_SIZE = 16 * 16
@@ -20,9 +21,10 @@ type Coordinater interface {
 // Чанк который хранит тайтлы и другие игровые объекты
 type Chunk struct {
 	ChunkID [2]int
-	Map     map[Coordinate]Tile
-	Tree    map[Coordinate]Tree
+	Map     map[Coordinate]*Tile
+	Tree    map[Coordinate]*Tree
 }
+
 
 /*
 Тайтл игрового мира
@@ -33,6 +35,8 @@ type Tile struct {
 	Y    int    `json:"y"`
 	Busy bool
 }
+// Освобождаем чанк для движения
+
 
 /*
 Универсальная структура для хранения координат
@@ -42,6 +46,15 @@ type Coordinate struct {
 	Y int `json:"y"`
 }
 
+func(ch *Chunk) DestroyTree(coordinate Coordinate)  {
+Mutex.Lock()
+delete(ch.Tree, coordinate)
+Mutex.Unlock()
+
+}
+func(t *Tile) TileClear() {
+	t.Busy = false
+}
 func (c Coordinate) GetCoordinate() (x, y int) {
 	return c.X, c.Y
 }
@@ -64,10 +77,10 @@ func NewChunk(idChunk Coordinate) Chunk {
 	}).Info("Create new Chunk")
 	chunk := Chunk{ChunkID: [2]int{idChunk.X, idChunk.Y}}
 	var chunkXMax, chunkYMax int
-	var chunkMap map[Coordinate]Tile
-	var treeMap map[Coordinate]Tree
-	chunkMap = make(map[Coordinate]Tile)
-	treeMap = make(map[Coordinate]Tree)
+	var chunkMap map[Coordinate]*Tile
+	var treeMap map[Coordinate]*Tree
+	chunkMap = make(map[Coordinate]*Tile)
+	treeMap = make(map[Coordinate]*Tree)
 	chunkXMax = idChunk.X * CHUNK_SIZE
 	chunkYMax = idChunk.Y * CHUNK_SIZE
 	var tree Tree
@@ -104,12 +117,12 @@ func NewChunk(idChunk Coordinate) Chunk {
 					}
 
 					if tree.Species != "" {
-						treeMap[Coordinate{X: tree.X, Y: tree.Y}] = tree
+						treeMap[Coordinate{X: tree.X, Y: tree.Y}] = &tree
 						tile.Busy = true
 						tree = Tree{}
 					}
 
-					chunkMap[Coordinate{X: tile.X, Y: tile.Y}] = tile
+					chunkMap[Coordinate{X: tile.X, Y: tile.Y}] = &tile
 
 				}
 			}
@@ -145,12 +158,12 @@ func NewChunk(idChunk Coordinate) Chunk {
 
 					if tree.Species != "" {
 
-						treeMap[Coordinate{X: tree.X, Y: tree.Y}] = tree
+						treeMap[Coordinate{X: tree.X, Y: tree.Y}] = &tree
 						tile.Busy = true
 						tree = Tree{}
 					}
 
-					chunkMap[Coordinate{X: tile.X, Y: tile.Y}] = tile
+					chunkMap[Coordinate{X: tile.X, Y: tile.Y}] = &tile
 
 				}
 			}
@@ -182,14 +195,14 @@ func NewChunk(idChunk Coordinate) Chunk {
 					case perlinValue > 0.5:
 						tile.Key = "Mount"
 					}
-					chunkMap[Coordinate{X: tile.X, Y: tile.Y}] = tile
+					chunkMap[Coordinate{X: tile.X, Y: tile.Y}] = &tile
 					if tree.Species != "" {
-						treeMap[Coordinate{X: tree.X, Y: tree.Y}] = tree
+						treeMap[Coordinate{X: tree.X, Y: tree.Y}] = &tree
 						tile.Busy = true
 						tree = Tree{}
 					}
 
-					chunkMap[Coordinate{X: tile.X, Y: tile.Y}] = tile
+					chunkMap[Coordinate{X: tile.X, Y: tile.Y}] = &tile
 
 				}
 			}
@@ -223,12 +236,12 @@ func NewChunk(idChunk Coordinate) Chunk {
 					}
 					if tree.Species != "" {
 
-						treeMap[Coordinate{X: tree.X, Y: tree.Y}] = tree
+						treeMap[Coordinate{X: tree.X, Y: tree.Y}] = &tree
 						tile.Busy = true
 						tree = Tree{}
 					}
 
-					chunkMap[Coordinate{X: tile.X, Y: tile.Y}] = tile
+					chunkMap[Coordinate{X: tile.X, Y: tile.Y}] = &tile
 
 				}
 			}

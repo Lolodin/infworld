@@ -1,7 +1,7 @@
 package mobs
 
 import (
-	"Test/chunk"
+     "github.com/lolodin/infworld/chunk"
 	"time"
 )
 

@@ -43,6 +43,7 @@ class TopDownClient extends Phaser.Scene{
         this.websocket = new WebSocket("ws://localhost:8080/player")
         this.websocket.onopen = (e) => {
             console.log("OPEN", e)
+            this.ID.y+=1
             let playerRequest = {action: MOVE,id:this.ID.Name, x:0, y:0}
             this.websocket.send(JSON.stringify(playerRequest))
             this.GetServerMap(this.ID.x,this.ID.x)
@@ -87,17 +88,17 @@ class TopDownClient extends Phaser.Scene{
             this.websocket.send(JSON.stringify(playerRequest))
         }
         if (cursors.right.isDown) {
-            this.ID.x+=1
+
             let playerRequest = {action: MOVE,id:this.ID.Name, x:1, y:0}
             this.websocket.send(JSON.stringify(playerRequest))
         }
         if (cursors.up.isDown) {
-            this.ID.y-=1
+
             let playerRequest = {action: MOVE,id:this.ID.Name, x:0, y:-1}
             this.websocket.send(JSON.stringify(playerRequest))
         }
         if (cursors.down.isDown) {
-            this.ID.y+=1
+
             let playerRequest = {action: MOVE,id:this.ID.Name, x:0, y:1}
             this.websocket.send(JSON.stringify(playerRequest))
         }

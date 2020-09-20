@@ -1,14 +1,15 @@
 package wmap
 
 import (
-	"github.com/lolodin/infworld/chunk"
 	"fmt"
+	"github.com/lolodin/infworld/chunk"
 	log "github.com/sirupsen/logrus"
 	"math"
 	"sync"
 )
 
 const VIGILANCE = 512
+const TREEDIST  = 10
 
 type Mover interface {
 	chunk.Coordinater
@@ -17,7 +18,7 @@ type Mover interface {
 
 type WorldMap struct {
 	sync.Mutex
-	Chunks map[chunk.Coordinate]chunk.Chunk
+	Chunks map[chunk.Coordinate]*chunk.Chunk
 	Player map[string]*Player
 
 }
@@ -117,8 +118,10 @@ func (w *WorldMap) GetPlayers(coordinater chunk.Coordinater) Players {
 	pls := Players{}
 	w.Lock()
 	for _, P := range w.Player {
-
+		if ok:=CalcDistantion(P,coordinater, VIGILANCE); ok {
 			pls.P = append(pls.P, *P)
+		}	
+
 
 	}
 	w.Unlock()
@@ -138,7 +141,7 @@ func (w *WorldMap) CheckBusyTile(coordinater chunk.Coordinater) bool {
 
 }
 
-//Получить player
+//Возвращает Player и bool == true если игрок с таким id/name есть
 func (w *WorldMap) GetPlayer(name string) (*Player, bool) {
 	w.Lock()
 	pl, ok := w.Player[name]
@@ -203,25 +206,33 @@ func morthxy(x int) int {
 	return x
 
 }
-func (w *WorldMap) Treehandler(coordinater chunk.Coordinater)  {
-	x,y := coordinater.GetCoordinate()
+func (w *WorldMap) Treehandler(TreeCoord chunk.Coordinater, idPlayer string)  {
+	p, ok:=w.GetPlayer(idPlayer)
+	if !ok {
+		return
+	}
+	if ok:=CalcDistantion(p, TreeCoord, TREEDIST); !ok {
+		return
+	}
+	x,y := TreeCoord.GetCoordinate()
 	id:=GetChunkID(x,y)
 	w.Lock()
-	//tree := w.Chunks[id].Tree[chunk.Coordinate{X:x, Y:y}]
+	w.Chunks[id].DestroyTree(chunk.Coordinate{x,y})
 	tile := w.Chunks[id].Map[chunk.Coordinate{X:x, Y:y}]
-	w.Unlock()
 	tile.Busy = false
+	w.Unlock()
+
 }
-//Возвращает true если для данных координат изменения актуальны
-func CalcDistantion(coordinater chunk.Coordinater, target chunk.Coordinater) bool {
+//Возвращает true если для данных координат подходит дистанция V; coordinater объект, targer цель между которыми высчитывается дистанция
+func CalcDistantion(coordinater chunk.Coordinater, target chunk.Coordinater, v int) bool {
 	x,y := coordinater.GetCoordinate()
 	x1, y1 := target.GetCoordinate()
 	P := chunk.Coordinate{X:x, Y:y}
-	calX1:= P.X - VIGILANCE
-	calX2:= P.X + VIGILANCE
+	calX1:= P.X - v
+	calX2:= P.X + v
 
-	calY1:= P.Y - VIGILANCE
-	calY2:= P.Y + VIGILANCE
+	calY1:= P.Y - v
+	calY2:= P.Y + v
 	if (x1>calX1 && x1<calX2) && (y1>calY1 && y1<calY2) {
 		return true
 	}

@@ -58,6 +58,8 @@ class GameMap {
             tree.setRotation(chunk[coordTile].age/5)
             tree.setInteractive()
             tree.on('clicked', this.clickTree, this)
+            tree.ServerX = chunk[coordTile].x
+            tree.ServerY = chunk[coordTile].y
             this.scene.CurrentMap[chunkID].add(tree)
         }
 
@@ -90,7 +92,7 @@ class GameMap {
         }
     }
     clickTree(objTree) {
-        let playerRequest = {action: TREE,id:this.scene.ID.Name, x:objTree.x, y:objTree.y}
+        let playerRequest = {action: TREE,id:this.scene.ID.Name, x:objTree.ServerX, y:objTree.ServerY}
         console.log(playerRequest)
         this.scene.websocket.send(JSON.stringify(playerRequest))
     }

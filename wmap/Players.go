@@ -40,8 +40,11 @@ func (p *Player) GetCoordinate() (x, y int) {
 func (p *Player) SetPassword(pass string) {
 	p.password = pass
 }
-func (p *Player) GetPassword() string {
+func (p Player) GetPassword() string {
 	return p.password
+}
+func (p Player) GetId() string {
+	return p.Name
 }
 // bool true if pass == player.password
 func (p *Player) ComparePassword(pass string) bool {
