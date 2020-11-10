@@ -40,7 +40,7 @@ class TopDownClient extends Phaser.Scene{
         ident.inServer()
 
         //Открываем соединение
-        this.websocket = new WebSocket("ws://gametestpopgapon.herokuapp.com/player")
+        this.websocket = new WebSocket("wss://gametestpopgapon.herokuapp.com/player")
         this.websocket.onopen = (e) => {
             console.log("OPEN", e)
             this.ID.y+=1
