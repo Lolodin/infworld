@@ -81,16 +81,16 @@ func PlayerHandler(W *wmap.WorldMap, eventMove chan<-gamereducer.Eventer, EventG
 
 		//ws handler
 go func() {
-	defer func() {
-		if err := recover(); err != nil {
-			log.WithFields(log.Fields{
-				"package": "GameController",
-				"func":    "PlayerHandler",
-				"error":   err,
-			}).Error("Error ws")
-		}
-
-	}()
+	//defer func() {
+	//	if err := recover(); err != nil {
+	//		log.WithFields(log.Fields{
+	//			"package": "GameController",
+	//			"func":    "PlayerHandler",
+	//			"error":   err,
+	//		}).Error("Error ws")
+	//	}
+	//
+	//}()
 	for {
 
 		msg, _, err := wsutil.ReadClientData(conn)

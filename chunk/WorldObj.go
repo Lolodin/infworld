@@ -13,7 +13,7 @@ type Tree struct {
 	Y       int     `json:"y"`
 }
 
-func NewTree(coordinate Coordinate) Tree {
+func NewTree(coordinate Coordinate) *Tree {
 	t := Tree{}
 	t.Age = rand.Float32()
 	t.Species = SPECIES[rand.Intn(len(SPECIES))]
@@ -22,5 +22,5 @@ func NewTree(coordinate Coordinate) Tree {
 	if t.Age == 0 {
 		t.Species = "Oak"
 	}
-	return t
+	return &t
 }

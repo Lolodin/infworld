@@ -27,9 +27,9 @@ type WorldMap struct {
 func (w *WorldMap) GetChunk(coordinate chunk.Coordinate) (chunk.Chunk, error) {
 	c, ok := w.Chunks[coordinate]
 	if ok == true {
-		return c, nil
+		return *c, nil
 	} else {
-		return c, fmt.Errorf("Chunck is not Exist")
+		return *c, fmt.Errorf("Chunck is not Exist")
 	}
 
 }
@@ -42,7 +42,7 @@ func (w *WorldMap) AddChunk(coordinate chunk.Coordinate, chunk chunk.Chunk) {
 		return
 	} else {
 		w.Lock()
-		w.Chunks[coordinate] = chunk
+		w.Chunks[coordinate] = &chunk
 		log.WithFields(log.Fields{
 			"package":  "WorldMap",
 			"func":     "AddChunk",
@@ -63,7 +63,7 @@ func (w *WorldMap) isChunkExist(coordinate chunk.Coordinate) bool {
 
 func NewCacheWorldMap() WorldMap {
 	world := WorldMap{}
-	world.Chunks = make(map[chunk.Coordinate]chunk.Chunk)
+	world.Chunks = make(map[chunk.Coordinate]*chunk.Chunk)
 	world.Player = make(map[string]*Player)
 	return world
 }
@@ -132,12 +132,13 @@ func (w *WorldMap) GetPlayers(coordinater chunk.Coordinater) Players {
 func (w *WorldMap) CheckBusyTile(coordinater chunk.Coordinater) bool {
 	x,y:= coordinater.GetCoordinate()
 	tile := CurrentTile(coordinater)
-	fmt.Println(tile, "debug", x,y)
 	chunkId := GetChunkID(x,y)
-	w.Lock()
-	defer w.Unlock()
-	b := w.Chunks[chunkId].Map[tile].Busy
-	return b
+
+	if b, ok := w.Chunks[chunkId].Map[tile]; ok {
+		return b.Busy
+	}
+	return false
+
 
 }
 

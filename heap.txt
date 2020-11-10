@@ -1,0 +1,203 @@
+heap profile: 3: 640 [18: 141088] @ heap/1048576
+1: 384 [1: 384] @ 0xb75958 0xb75e95 0xb9913a 0xb9f5ab 0xb6ffa1
+#	0xb75957	runtime.malg+0x37		C:/Go/src/runtime/proc.go:3493
+#	0xb75e94	runtime.newproc1+0x3f4		C:/Go/src/runtime/proc.go:3570
+#	0xb99139	runtime.newproc.func1+0x59	C:/Go/src/runtime/proc.go:3528
+#	0xb9f5aa	runtime.systemstack+0x6a	C:/Go/src/runtime/asm_amd64.s:370
+#	0xb6ffa0	runtime.mstart+0x0		C:/Go/src/runtime/proc.go:1116
+
+1: 208 [1: 208] @ 0xb4528d 0xc4eee5 0xc4f0b2 0xc4a925 0xc4854e 0xc480ca 0xc47ee5 0xc47e26 0xc47a57 0xc544d1 0xe3484a 0xe350ad 0xba12e1
+#	0xc4eee4	encoding/json.typeFields+0x1824						C:/Go/src/encoding/json/encode.go:1359
+#	0xc4f0b1	encoding/json.cachedTypeFields+0xf1					C:/Go/src/encoding/json/encode.go:1387
+#	0xc4a924	encoding/json.newStructEncoder+0x44					C:/Go/src/encoding/json/encode.go:769
+#	0xc4854d	encoding/json.newTypeEncoder+0x36d					C:/Go/src/encoding/json/encode.go:449
+#	0xc480c9	encoding/json.typeEncoder+0x1a9						C:/Go/src/encoding/json/encode.go:402
+#	0xc47ee4	encoding/json.valueEncoder+0x64						C:/Go/src/encoding/json/encode.go:376
+#	0xc47e25	encoding/json.(*encodeState).reflectValue+0x45				C:/Go/src/encoding/json/encode.go:358
+#	0xc47a56	encoding/json.(*encodeState).marshal+0xf6				C:/Go/src/encoding/json/encode.go:330
+#	0xc544d0	encoding/json.(*Encoder).Encode+0x90					C:/Go/src/encoding/json/stream.go:206
+#	0xe34849	github.com/lolodin/infworld/gamereducer.PlayerConn.sendData+0x69	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:30
+#	0xe350ac	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
+
+1: 48 [1: 48] @ 0xe30e53 0xe33e1b 0xe354a8 0xba12e1
+#	0xe30e52	github.com/lolodin/infworld/chunk.NewChunk+0x812		C:/Users/ilii4/go/src/deadWorld/infworld/chunk/Chunk.go:137
+#	0xe33e1a	github.com/lolodin/infworld/wmap.GetPlayerDrawChunkMap+0x21a	C:/Users/ilii4/go/src/deadWorld/infworld/wmap/Map.go:134
+#	0xe354a7	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
+
+0: 0 [0: 0] @ 0xebeb65 0xebe9ce 0xebd098 0xecafc5 0xecc8cc 0xdffc0b 0xe01c97 0xe033aa 0xdfe9cd 0xba12e1
+#	0xebeb64	runtime/pprof.writeHeapInternal+0xc4	C:/Go/src/runtime/pprof/pprof.go:566
+#	0xebe9cd	runtime/pprof.writeHeap+0x4d		C:/Go/src/runtime/pprof/pprof.go:536
+#	0xebd097	runtime/pprof.(*Profile).WriteTo+0x3f7	C:/Go/src/runtime/pprof/pprof.go:331
+#	0xecafc4	net/http/pprof.handler.ServeHTTP+0x384	C:/Go/src/net/http/pprof/pprof.go:256
+#	0xecc8cb	net/http/pprof.Index+0x94b		C:/Go/src/net/http/pprof/pprof.go:367
+#	0xdffc0a	net/http.HandlerFunc.ServeHTTP+0x4a	C:/Go/src/net/http/server.go:2042
+#	0xe01c96	net/http.(*ServeMux).ServeHTTP+0x1b6	C:/Go/src/net/http/server.go:2417
+#	0xe033a9	net/http.serverHandler.ServeHTTP+0xa9	C:/Go/src/net/http/server.go:2843
+#	0xdfe9cc	net/http.(*conn).serve+0x8ac		C:/Go/src/net/http/server.go:1925
+
+0: 0 [1: 16] @ 0xe258bc 0xe25397 0xe30eb4 0xe33e1b 0xe354a8 0xba12e1
+#	0xe258bb	github.com/lolodin/infworld/perlinNoise.getRandomVector+0x17b	C:/Users/ilii4/go/src/deadWorld/infworld/perlinNoise/Perlin.go:52
+#	0xe25396	github.com/lolodin/infworld/perlinNoise.Noise+0x96		C:/Users/ilii4/go/src/deadWorld/infworld/perlinNoise/Perlin.go:17
+#	0xe30eb3	github.com/lolodin/infworld/chunk.NewChunk+0x873		C:/Users/ilii4/go/src/deadWorld/infworld/chunk/Chunk.go:142
+#	0xe33e1a	github.com/lolodin/infworld/wmap.GetPlayerDrawChunkMap+0x21a	C:/Users/ilii4/go/src/deadWorld/infworld/wmap/Map.go:134
+#	0xe354a7	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
+
+0: 0 [2: 20480] @ 0xc4ab29 0xc4a7a3 0xc4badd 0xc4a7a3 0xc47e69 0xc47a57 0xc544d1 0xe3484a 0xe350ad 0xba12e1
+#	0xc4ab28	encoding/json.mapEncoder.encode+0x148					C:/Go/src/encoding/json/encode.go:786
+#	0xc4a7a2	encoding/json.structEncoder.encode+0x2c2				C:/Go/src/encoding/json/encode.go:759
+#	0xc4badc	encoding/json.arrayEncoder.encode+0xdc					C:/Go/src/encoding/json/encode.go:886
+#	0xc4a7a2	encoding/json.structEncoder.encode+0x2c2				C:/Go/src/encoding/json/encode.go:759
+#	0xc47e68	encoding/json.(*encodeState).reflectValue+0x88				C:/Go/src/encoding/json/encode.go:358
+#	0xc47a56	encoding/json.(*encodeState).marshal+0xf6				C:/Go/src/encoding/json/encode.go:330
+#	0xc544d0	encoding/json.(*Encoder).Encode+0x90					C:/Go/src/encoding/json/stream.go:206
+#	0xe34849	github.com/lolodin/infworld/gamereducer.PlayerConn.sendData+0x69	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:30
+#	0xe350ac	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
+
+0: 0 [1: 176] @ 0xc3e618 0xe379c7 0xba12e1
+#	0xc3e617	encoding/json.Unmarshal+0x37						C:/Go/src/encoding/json/decode.go:100
+#	0xe379c6	github.com/lolodin/infworld/playerhand.PlayerHandler.func1.2+0x3c6	C:/Users/ilii4/go/src/deadWorld/infworld/playerhand/player_handler.go:110
+
+0: 0 [1: 16] @ 0xb84645 0xe305de 0xc4c7fa 0xc4ae45 0xc4a7a3 0xc4badd 0xc4a7a3 0xc47e69 0xc47a57 0xc544d1 0xe3484a 0xe350ad 0xba12e1
+#	0xe305dd	github.com/lolodin/infworld/chunk.Coordinate.MarshalText+0x11d		C:/Users/ilii4/go/src/deadWorld/infworld/chunk/Chunk.go:64
+#	0xc4c7f9	encoding/json.(*reflectWithString).resolve+0x119			C:/Go/src/encoding/json/encode.go:984
+#	0xc4ae44	encoding/json.mapEncoder.encode+0x464					C:/Go/src/encoding/json/encode.go:789
+#	0xc4a7a2	encoding/json.structEncoder.encode+0x2c2				C:/Go/src/encoding/json/encode.go:759
+#	0xc4badc	encoding/json.arrayEncoder.encode+0xdc					C:/Go/src/encoding/json/encode.go:886
+#	0xc4a7a2	encoding/json.structEncoder.encode+0x2c2				C:/Go/src/encoding/json/encode.go:759
+#	0xc47e68	encoding/json.(*encodeState).reflectValue+0x88				C:/Go/src/encoding/json/encode.go:358
+#	0xc47a56	encoding/json.(*encodeState).marshal+0xf6				C:/Go/src/encoding/json/encode.go:330
+#	0xc544d0	encoding/json.(*Encoder).Encode+0x90					C:/Go/src/encoding/json/stream.go:206
+#	0xe34849	github.com/lolodin/infworld/gamereducer.PlayerConn.sendData+0x69	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:30
+#	0xe350ac	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
+
+0: 0 [1: 48] @ 0xba7ddc 0xbe4d64 0xc4abca 0xc4a7a3 0xc4badd 0xc4a7a3 0xc47e69 0xc47a57 0xc544d1 0xe3484a 0xe350ad 0xba12e1
+#	0xba7ddb	internal/reflectlite.Swapper+0x1bb					C:/Go/src/internal/reflectlite/swapper.go:67
+#	0xbe4d63	sort.Slice+0x83								C:/Go/src/sort/slice.go:15
+#	0xc4abc9	encoding/json.mapEncoder.encode+0x1e9					C:/Go/src/encoding/json/encode.go:793
+#	0xc4a7a2	encoding/json.structEncoder.encode+0x2c2				C:/Go/src/encoding/json/encode.go:759
+#	0xc4badc	encoding/json.arrayEncoder.encode+0xdc					C:/Go/src/encoding/json/encode.go:886
+#	0xc4a7a2	encoding/json.structEncoder.encode+0x2c2				C:/Go/src/encoding/json/encode.go:759
+#	0xc47e68	encoding/json.(*encodeState).reflectValue+0x88				C:/Go/src/encoding/json/encode.go:358
+#	0xc47a56	encoding/json.(*encodeState).marshal+0xf6				C:/Go/src/encoding/json/encode.go:330
+#	0xc544d0	encoding/json.(*Encoder).Encode+0x90					C:/Go/src/encoding/json/stream.go:206
+#	0xe34849	github.com/lolodin/infworld/gamereducer.PlayerConn.sendData+0x69	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:30
+#	0xe350ac	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
+
+0: 0 [1: 73728] @ 0xc3a8da 0xc3a1f6 0xc3a613 0xc4ce67 0xc49e16 0xc4a7a3 0xc4bd45 0xc4ad5c 0xc4a7a3 0xc4badd 0xc4a7a3 0xc47e69 0xc47a57 0xc544d1 0xe3484a 0xe350ad 0xba12e1
+#	0xc3a8d9	bytes.makeSlice+0x79							C:/Go/src/bytes/buffer.go:229
+#	0xc3a1f5	bytes.(*Buffer).grow+0x175						C:/Go/src/bytes/buffer.go:142
+#	0xc3a612	bytes.(*Buffer).WriteString+0xd2					C:/Go/src/bytes/buffer.go:184
+#	0xc4ce66	encoding/json.(*encodeState).string+0x466				C:/Go/src/encoding/json/encode.go:1066
+#	0xc49e15	encoding/json.stringEncoder+0x1d5					C:/Go/src/encoding/json/encode.go:645
+#	0xc4a7a2	encoding/json.structEncoder.encode+0x2c2				C:/Go/src/encoding/json/encode.go:759
+#	0xc4bd44	encoding/json.ptrEncoder.encode+0x124					C:/Go/src/encoding/json/encode.go:915
+#	0xc4ad5b	encoding/json.mapEncoder.encode+0x37b					C:/Go/src/encoding/json/encode.go:801
+#	0xc4a7a2	encoding/json.structEncoder.encode+0x2c2				C:/Go/src/encoding/json/encode.go:759
+#	0xc4badc	encoding/json.arrayEncoder.encode+0xdc					C:/Go/src/encoding/json/encode.go:886
+#	0xc4a7a2	encoding/json.structEncoder.encode+0x2c2				C:/Go/src/encoding/json/encode.go:759
+#	0xc47e68	encoding/json.(*encodeState).reflectValue+0x88				C:/Go/src/encoding/json/encode.go:358
+#	0xc47a56	encoding/json.(*encodeState).marshal+0xf6				C:/Go/src/encoding/json/encode.go:330
+#	0xc544d0	encoding/json.(*Encoder).Encode+0x90					C:/Go/src/encoding/json/stream.go:206
+#	0xe34849	github.com/lolodin/infworld/gamereducer.PlayerConn.sendData+0x69	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:30
+#	0xe350ac	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
+
+0: 0 [1: 18432] @ 0xc3a8da 0xc3a1f6 0xc3a613 0xc4a747 0xc4bd45 0xc4ad5c 0xc4a7a3 0xc4badd 0xc4a7a3 0xc47e69 0xc47a57 0xc544d1 0xe3484a 0xe350ad 0xba12e1
+#	0xc3a8d9	bytes.makeSlice+0x79							C:/Go/src/bytes/buffer.go:229
+#	0xc3a1f5	bytes.(*Buffer).grow+0x175						C:/Go/src/bytes/buffer.go:142
+#	0xc3a612	bytes.(*Buffer).WriteString+0xd2					C:/Go/src/bytes/buffer.go:184
+#	0xc4a746	encoding/json.structEncoder.encode+0x266				C:/Go/src/encoding/json/encode.go:754
+#	0xc4bd44	encoding/json.ptrEncoder.encode+0x124					C:/Go/src/encoding/json/encode.go:915
+#	0xc4ad5b	encoding/json.mapEncoder.encode+0x37b					C:/Go/src/encoding/json/encode.go:801
+#	0xc4a7a2	encoding/json.structEncoder.encode+0x2c2				C:/Go/src/encoding/json/encode.go:759
+#	0xc4badc	encoding/json.arrayEncoder.encode+0xdc					C:/Go/src/encoding/json/encode.go:886
+#	0xc4a7a2	encoding/json.structEncoder.encode+0x2c2				C:/Go/src/encoding/json/encode.go:759
+#	0xc47e68	encoding/json.(*encodeState).reflectValue+0x88				C:/Go/src/encoding/json/encode.go:358
+#	0xc47a56	encoding/json.(*encodeState).marshal+0xf6				C:/Go/src/encoding/json/encode.go:330
+#	0xc544d0	encoding/json.(*Encoder).Encode+0x90					C:/Go/src/encoding/json/stream.go:206
+#	0xe34849	github.com/lolodin/infworld/gamereducer.PlayerConn.sendData+0x69	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:30
+#	0xe350ac	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
+
+0: 0 [2: 8192] @ 0xb3fe99 0xb419dc 0xb407d7 0xe30f5e 0xe33e1b 0xe354a8 0xba12e1
+#	0xe30f5d	github.com/lolodin/infworld/chunk.NewChunk+0x91d		C:/Users/ilii4/go/src/deadWorld/infworld/chunk/Chunk.go:166
+#	0xe33e1a	github.com/lolodin/infworld/wmap.GetPlayerDrawChunkMap+0x21a	C:/Users/ilii4/go/src/deadWorld/infworld/wmap/Map.go:134
+#	0xe354a7	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
+
+0: 0 [3: 18432] @ 0xbd42b7 0xc4aaf8 0xc4a7a3 0xc4badd 0xc4a7a3 0xc47e69 0xc47a57 0xc544d1 0xe3484a 0xe350ad 0xba12e1
+#	0xbd42b6	reflect.Value.MapKeys+0xf6						C:/Go/src/reflect/value.go:1215
+#	0xc4aaf7	encoding/json.mapEncoder.encode+0x117					C:/Go/src/encoding/json/encode.go:785
+#	0xc4a7a2	encoding/json.structEncoder.encode+0x2c2				C:/Go/src/encoding/json/encode.go:759
+#	0xc4badc	encoding/json.arrayEncoder.encode+0xdc					C:/Go/src/encoding/json/encode.go:886
+#	0xc4a7a2	encoding/json.structEncoder.encode+0x2c2				C:/Go/src/encoding/json/encode.go:759
+#	0xc47e68	encoding/json.(*encodeState).reflectValue+0x88				C:/Go/src/encoding/json/encode.go:358
+#	0xc47a56	encoding/json.(*encodeState).marshal+0xf6				C:/Go/src/encoding/json/encode.go:330
+#	0xc544d0	encoding/json.(*Encoder).Encode+0x90					C:/Go/src/encoding/json/stream.go:206
+#	0xe34849	github.com/lolodin/infworld/gamereducer.PlayerConn.sendData+0x69	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:30
+#	0xe350ac	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
+
+0: 0 [0: 0] @ 0xe227a5 0xe22605 0xe225e5 0xe37685 0xba12e1
+#	0xe227a4	github.com/gobwas/ws/wsutil.readData+0xa4				C:/Users/ilii4/go/pkg/mod/github.com/gobwas/ws@v1.0.3/wsutil/helper.go:250
+#	0xe22604	github.com/gobwas/ws/wsutil.ReadData+0x44				C:/Users/ilii4/go/pkg/mod/github.com/gobwas/ws@v1.0.3/wsutil/helper.go:88
+#	0xe225e4	github.com/gobwas/ws/wsutil.ReadClientData+0x24				C:/Users/ilii4/go/pkg/mod/github.com/gobwas/ws@v1.0.3/wsutil/helper.go:97
+#	0xe37684	github.com/lolodin/infworld/playerhand.PlayerHandler.func1.2+0x84	C:/Users/ilii4/go/src/deadWorld/infworld/playerhand/player_handler.go:96
+
+0: 0 [1: 288] @ 0xb4528d 0xe62985 0xe63072 0xe7232d 0xe73f65 0xecdc47 0xecdc02 0xdffc0b 0xe01c97 0xe033aa 0xdfe9cd 0xba12e1
+#	0xe62984	text/template.builtins+0xa4		C:/Go/src/text/template/funcs.go:38
+#	0xe63071	text/template.(*Template).Parse+0x791	C:/Go/src/text/template/template.go:201
+#	0xe7232c	html/template.(*Template).Parse+0xac	C:/Go/src/html/template/template.go:189
+#	0xe73f64	html/template.parseFiles+0x1a4		C:/Go/src/html/template/template.go:435
+#	0xecdc46	html/template.ParseFiles+0x86		C:/Go/src/html/template/template.go:387
+#	0xecdc01	main.indexHandler+0x41			C:/Users/ilii4/go/src/deadWorld/infworld/cmd/main.go:61
+#	0xdffc0a	net/http.HandlerFunc.ServeHTTP+0x4a	C:/Go/src/net/http/server.go:2042
+#	0xe01c96	net/http.(*ServeMux).ServeHTTP+0x1b6	C:/Go/src/net/http/server.go:2417
+#	0xe033a9	net/http.serverHandler.ServeHTTP+0xa9	C:/Go/src/net/http/server.go:2843
+#	0xdfe9cc	net/http.(*conn).serve+0x8ac		C:/Go/src/net/http/server.go:1925
+
+0: 0 [0: 0] @ 0xd8d247 0xdf3bf6 0xdfa088 0xdfe825 0xba12e1
+#	0xd8d246	net/textproto.(*Reader).ReadMIMEHeader+0x706	C:/Go/src/net/textproto/reader.go:491
+#	0xdf3bf5	net/http.readRequest+0x375			C:/Go/src/net/http/request.go:1059
+#	0xdfa087	net/http.(*conn).readRequest+0x1a7		C:/Go/src/net/http/server.go:984
+#	0xdfe824	net/http.(*conn).serve+0x704			C:/Go/src/net/http/server.go:1851
+
+0: 0 [1: 640] @ 0xe7c305 0xe7c0a2 0xe79f1f 0xe7a99b 0xe79b71 0xe93a85 0xe947d2 0xe947a9 0xeb75f8 0xb7a9d8 0xb7a9a5 0xb7a9a5 0xb6d585 0xba12e1
+#	0xe7c304	regexp/syntax.(*compiler).inst+0x2a4	C:/Go/src/regexp/syntax/compile.go:163
+#	0xe7c0a1	regexp/syntax.(*compiler).rune+0x41	C:/Go/src/regexp/syntax/compile.go:257
+#	0xe79f1e	regexp/syntax.(*compiler).compile+0x15e	C:/Go/src/regexp/syntax/compile.go:100
+#	0xe7a99a	regexp/syntax.(*compiler).compile+0xbda	C:/Go/src/regexp/syntax/compile.go:144
+#	0xe79b70	regexp/syntax.Compile+0x110		C:/Go/src/regexp/syntax/compile.go:73
+#	0xe93a84	regexp.compile+0xe4			C:/Go/src/regexp/regexp.go:178
+#	0xe947d1	regexp.Compile+0x51			C:/Go/src/regexp/regexp.go:133
+#	0xe947a8	regexp.MustCompile+0x28			C:/Go/src/regexp/regexp.go:309
+#	0xeb75f7	internal/profile.init+0x1d7		C:/Go/src/internal/profile/legacy_profile.go:36
+#	0xb7a9d7	runtime.doInit+0x97			C:/Go/src/runtime/proc.go:5625
+#	0xb7a9a4	runtime.doInit+0x64			C:/Go/src/runtime/proc.go:5620
+#	0xb7a9a4	runtime.doInit+0x64			C:/Go/src/runtime/proc.go:5620
+#	0xb6d584	runtime.main+0x1c4			C:/Go/src/runtime/proc.go:191
+
+
+# runtime.MemStats
+# Alloc = 3029088
+# TotalAlloc = 15710768
+# Sys = 18508368
+# Lookups = 0
+# Mallocs = 310327
+# Frees = 284945
+# HeapAlloc = 3029088
+# HeapSys = 12288000
+# HeapIdle = 7733248
+# HeapInuse = 4554752
+# HeapReleased = 7708672
+# HeapObjects = 25382
+# Stack = 294912 / 294912
+# MSpan = 108392 / 131072
+# MCache = 13632 / 16384
+# BuckHashSys = 1448824
+# GCSys = 2935696
+# OtherSys = 1393480
+# NextGC = 4194304
+# LastGC = 1600675787702249300
+# PauseNs = [976000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+# PauseEnd = [1600675781935814900 1600675783200428300 1600675784516305900 1600675784802917000 1600675785932279800 1600675786766729200 1600675787702249300 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+# NumGC = 7
+# NumForcedGC = 0
+# GCCPUFraction = 2.606674610371923e-05
+# DebugGC = false

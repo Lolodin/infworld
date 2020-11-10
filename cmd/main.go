@@ -8,6 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"html/template"
 	"net/http"
+	_ "net/http/pprof"
 	"os"
 )
 var (
