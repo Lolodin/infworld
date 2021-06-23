@@ -1,5 +1,4 @@
-
-import {MOVE, GETMAP} from './Action.js'
+import {GETMAP, MOVE} from './Action.js'
 
 export default class Controller {
     constructor(scene, map, players) {
@@ -8,10 +7,11 @@ export default class Controller {
         this.Map = map
         this.Players = players
     }
-    listner() {
-        this.websocket.onmessage = (e)=> {
+
+    listener() {
+        this.websocket.onmessage = (e) => {
             let serverAnswer = e.data
-            let data =  JSON.parse(serverAnswer)
+            let data = JSON.parse(serverAnswer)
             console.log(serverAnswer, data, "debug")
             switch (data.action) {
                 case MOVE:
@@ -25,13 +25,7 @@ export default class Controller {
                     break;
                 default:
                     console.log("action not found")
-
-
-
-
             }
-
-
         }
     }
 }

@@ -59,7 +59,7 @@ class TopDownClient extends Phaser.Scene {
         this.Players = new Players(this)
         this.Map = new GameMap(this)
         this.Controller = new Controller(this, this.Map, this.Players)
-        this.Controller.listner()
+        this.Controller.listener()
         this.CurrentChunk = this.getChunkID(this.ID.x, this.ID.y)
         this.cameras.main.startFollow(this.ID, true)
         this.coordinate = this.getCurrentMap(this.CurrentChunk)

@@ -19,7 +19,6 @@ var (
 )
 
 func init() {
-
 	filelog, e := os.Create("log")
 	if e != nil {
 		panic("error create log file")

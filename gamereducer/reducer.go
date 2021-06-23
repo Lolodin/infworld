@@ -12,7 +12,9 @@ import (
 	"net"
 	"sync"
 )
+
 const VIGILANCE = 512
+
 var clients = make(map[chunk.Coordinate]map[string]*PlayerConn)
 var eventsMutex = sync.Mutex{}
 
@@ -39,8 +41,8 @@ func (conn PlayerConn) sendData(i interface{}) {
 }
 
 //Добавляет соединение в чанк
-func NewPlayerConn(conn net.Conn,  coordinater Eventer) {
-    x,y := coordinater.GetCoordinate()
+func NewPlayerConn(conn net.Conn, coordinater Eventer) {
+	x, y := coordinater.GetCoordinate()
 	idPlayer := coordinater.GetId()
 	chunkID := wmap.GetChunkID(x, y)
 	pc := PlayerConn{}
@@ -65,9 +67,7 @@ func ListnerMoveEvent(chEventMove <-chan Eventer, w *wmap.WorldMap) {
 			pls := w.GetPlayers(coord)
 			pls.Action = action.MOVE
 			sendDataToChunck(coord, pls)
-
 		}
-
 	}
 }
 
@@ -109,20 +109,19 @@ func ListnerGetMap(chGetMapEvent <-chan Eventer, w *wmap.WorldMap) {
 func ListnerTreeEvent(chGetMapEvent <-chan Eventer, w *wmap.WorldMap) {
 	for {
 		select {
-		case event :=<-chGetMapEvent:
-			id:= event.GetId()
+		case event := <-chGetMapEvent:
+			id := event.GetId()
 			w.Treehandler(event, id)
 		}
 	}
-
 
 }
 
 // Для функций изменяющих данные,
 func sendDataToChunck(e chunk.Coordinater, data interface{}) {
-	x,y := e.GetCoordinate()
-	currentChunk := wmap.GetChunkID(x,y)
-	m:=wmap.GetCurrentPlayerMap(currentChunk)
+	x, y := e.GetCoordinate()
+	currentChunk := wmap.GetChunkID(x, y)
+	m := wmap.GetCurrentPlayerMap(currentChunk)
 	for _, chunkID := range m {
 		for _, conn := range clients[chunkID] {
 			conn.sendData(data)

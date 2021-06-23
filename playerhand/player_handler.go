@@ -84,7 +84,6 @@ func PlayerHandler(W *wmap.WorldMap, eventMove chan<- gamereducer.Eventer, Event
 
 			}()
 			for {
-
 				msg, _, err := wsutil.ReadClientData(conn)
 				if err != nil {
 					panic("conn cancel")
@@ -111,7 +110,6 @@ func PlayerHandler(W *wmap.WorldMap, eventMove chan<- gamereducer.Eventer, Event
 					req := PlayerResponseTREE{}
 					json.Unmarshal(msg, &req)
 					EventTree <- req
-
 				case action.GET_MAP:
 					req := PlayerResponseGETMAP{}
 					json.Unmarshal(msg, &req)
