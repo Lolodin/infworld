@@ -17,7 +17,7 @@ class Identification {
         })
         res = await res.json()
       console.log(res)
-        if (res.error == "null") {
+        if (res.error === "null") {
             this.Scene.ID.x = res.x
             this.Scene.ID.y = res.y
         } else {
