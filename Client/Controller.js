@@ -1,4 +1,4 @@
-import {GETMAP, MOVE} from './Action.js'
+import {GETMAP, MOVE, TREE} from './Action.js'
 
 export default class Controller {
     constructor(scene, map, players) {
@@ -12,16 +12,19 @@ export default class Controller {
         this.websocket.onmessage = (e) => {
             let serverAnswer = e.data
             let data = JSON.parse(serverAnswer)
-            console.log(serverAnswer, data, "debug")
             switch (data.action) {
                 case MOVE:
-                    console.log("MOVE", data)
                     this.Players.DrawPlayer(data.players)
                     break;
                 case GETMAP:
-                    console.log("GETMAP", data)
                     let gmap = data.gamemap
                     this.Map.drawMapController(gmap)
+                    break;
+                case TREE:
+                    if (!data.result) {
+                        return;
+                    }
+                    this.Map.destroyTree(data.x, data.y);
                     break;
                 default:
                     console.log("action not found")

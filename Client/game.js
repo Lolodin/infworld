@@ -22,7 +22,6 @@ let config = {
     pixelArt: true,
     roundPixels: true,
     antialias: true
-
 }
 /*eslint no-undef:0*/
 /*eslint no-unused-vars:0*/

@@ -6,7 +6,6 @@ class Players extends Phaser.GameObjects.Sprite {
         this.activePlayers = [] // Активные игроки на сцене
         this.createSceneAnimation(scene)
         this.scene = scene
-
     }
 
     createSceneAnimation(scene) {
@@ -38,10 +37,6 @@ class Players extends Phaser.GameObjects.Sprite {
                 this.activePlayers[players[i].Name].y = players[i].y
 
             }
-
         }
-
     }
-
-
 }

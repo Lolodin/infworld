@@ -17,7 +17,7 @@ type MobGenerator struct {
 //}
 
 // Запуск в конструкторе
-func (g *MobGenerator) Genetation() {
+func (g *MobGenerator) Generation() {
 	for {
 		if g.CurrentMob == nil {
 

@@ -114,11 +114,8 @@ func PlayerHandler(W *wmap.WorldMap, eventMove chan<- gamereducer.Eventer, Event
 					req := PlayerResponseGETMAP{}
 					json.Unmarshal(msg, &req)
 					EventGetMap <- req
-
 				}
-
 			}
 		}()
-
 	}
 }

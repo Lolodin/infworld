@@ -32,12 +32,12 @@ func main() {
 	}).Info("Server start")
 	World := wmap.NewCacheWorldMap()
 	http.HandleFunc("/init", gcontrl.InitHandler(&World))
-	http.HandleFunc("/map", gcontrl.Map_Handler(&World))
+	http.HandleFunc("/map", gcontrl.MapHandler(&World))
 	//Сигнал действия юзера
 
-	go gamereducer.ListnerMoveEvent(chEventMove, &World)
-	go gamereducer.ListnerGetMap(chEventGetMap, &World)
-	//go gamereducer.ListnerTreeEvent(chEventTree, &World)
+	go gamereducer.OnMove(chEventMove, &World)
+	go gamereducer.OnGetMap(chEventGetMap, &World)
+	go gamereducer.OnTree(chEventTree, &World)
 	http.HandleFunc("/player", playerhand.PlayerHandler(&World, chEventMove, chEventGetMap, chEventTree))
 	http.HandleFunc("/", indexHandler)
 

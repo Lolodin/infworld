@@ -2,3 +2,4 @@
 log
 /coverage.out.tmp
 .idea
+cmd/heap.out

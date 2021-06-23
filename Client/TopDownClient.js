@@ -18,6 +18,8 @@ class TopDownClient extends Phaser.Scene {
         this.CurrentChunk = 0 // Текущий чанк
         this.tileSize = 16
         this.chunkSize = 16 * 16
+
+        this.lastDelta = 0;
     }
 
 
@@ -41,11 +43,10 @@ class TopDownClient extends Phaser.Scene {
         const protocol = window.location.protocol.includes("https") ? "wss" : "ws";
         this.websocket = new WebSocket(`${protocol}://${window.location.host}/player`);
         this.websocket.onopen = (e) => {
-            console.log("OPEN", e)
             this.ID.y += 1
             let playerRequest = {action: MOVE, id: this.ID.Name, x: 0, y: 0}
             this.websocket.send(JSON.stringify(playerRequest))
-            this.GetServerMap(this.ID.x, this.ID.x)
+            this.GetServerMap(this.ID.x, this.ID.y)
         }
     }
 
@@ -66,11 +67,6 @@ class TopDownClient extends Phaser.Scene {
         this.input.on('gameobjectup', function (pointer, gameObject) {
             gameObject.emit('clicked', gameObject);
         }, this);
-        /*
-        Рисуем игроков на игровой карте
-         */
-
-
     }
 
     update(time, delta) {
@@ -81,17 +77,14 @@ class TopDownClient extends Phaser.Scene {
             this.websocket.send(JSON.stringify(playerRequest))
         }
         if (cursors.right.isDown) {
-
             let playerRequest = {action: MOVE, id: this.ID.Name, x: 1, y: 0}
             this.websocket.send(JSON.stringify(playerRequest))
         }
         if (cursors.up.isDown) {
-
             let playerRequest = {action: MOVE, id: this.ID.Name, x: 0, y: -1}
             this.websocket.send(JSON.stringify(playerRequest))
         }
         if (cursors.down.isDown) {
-
             let playerRequest = {action: MOVE, id: this.ID.Name, x: 0, y: 1}
             this.websocket.send(JSON.stringify(playerRequest))
         }
@@ -232,8 +225,5 @@ class TopDownClient extends Phaser.Scene {
         xy = this.getChunkID(x, y);
         map.push(xy);
         return map;
-
     }
-
-
 }
