@@ -11,10 +11,11 @@ import (
 	_ "net/http/pprof"
 	"os"
 )
+
 var (
-chEventMove = make(chan gamereducer.Eventer)
-chEventGetMap = make(chan gamereducer.Eventer)
-chEventTree = make(chan gamereducer.Eventer)
+	chEventMove   = make(chan gamereducer.Eventer)
+	chEventGetMap = make(chan gamereducer.Eventer)
+	chEventTree   = make(chan gamereducer.Eventer)
 )
 
 func init() {
@@ -45,7 +46,13 @@ func main() {
 	http.Handle("/node_modules/phaser/dist/", http.StripPrefix("/node_modules/phaser/dist/", http.FileServer(http.Dir("./node_modules/phaser/dist/"))))
 	http.Handle("/Client/", http.StripPrefix("/Client/", http.FileServer(http.Dir("./Client/"))))
 	http.Handle("/Client/content/", http.StripPrefix("/Client/content/", http.FileServer(http.Dir("./Client/content/"))))
-	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+
+	port := "8080"
+	if value, ok := os.LookupEnv("PORT"); ok {
+		port = value
+	}
+
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"package": "main",
