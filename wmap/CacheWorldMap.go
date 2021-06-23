@@ -9,7 +9,7 @@ import (
 )
 
 const VIGILANCE = 512
-const TREEDIST = 10
+const TREEDIST = 25
 
 type Mover interface {
 	chunk.Coordinater
@@ -213,18 +213,11 @@ func (w *WorldMap) DestroyTree(TreeCoord chunk.Coordinater, idPlayer string) boo
 	return true
 }
 
-//Возвращает true если для данных координат подходит дистанция V; coordinater объект, targer цель между которыми высчитывается дистанция
+/*
+ * Возвращает true если для данных координат подходит дистанция V; coordinater объект, target цель между которыми высчитывается дистанция
+ */
 func CalcDistance(coordinater chunk.Coordinater, target chunk.Coordinater, v int) bool {
 	x, y := coordinater.GetCoordinate()
-	x1, y1 := target.GetCoordinate()
-	P := chunk.Coordinate{X: x, Y: y}
-	calX1 := P.X - v
-	calX2 := P.X + v
-
-	calY1 := P.Y - v
-	calY2 := P.Y + v
-	if (x1 > calX1 && x1 < calX2) && (y1 > calY1 && y1 < calY2) {
-		return true
-	}
-	return false
+	x2, y2 := target.GetCoordinate()
+	return int(math.Floor(math.Abs(math.Sqrt(float64((x-x2)*(x-x2) + (y-y2)*(y-y2)))))) <= v
 }
