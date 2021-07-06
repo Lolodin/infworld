@@ -12,7 +12,9 @@ import (
 	"net"
 	"sync"
 )
+
 const VIGILANCE = 512
+
 var clients = make(map[chunk.Coordinate]map[string]*PlayerConn)
 var eventsMutex = sync.Mutex{}
 
@@ -39,8 +41,8 @@ func (conn PlayerConn) sendData(i interface{}) {
 }
 
 //Добавляет соединение в чанк
-func NewPlayerConn(conn net.Conn,  coordinater Eventer) {
-    x,y := coordinater.GetCoordinate()
+func NewPlayerConn(conn net.Conn, coordinater Eventer) {
+	x, y := coordinater.GetCoordinate()
 	idPlayer := coordinater.GetId()
 	chunkID := wmap.GetChunkID(x, y)
 	pc := PlayerConn{}
@@ -53,21 +55,18 @@ func NewPlayerConn(conn net.Conn,  coordinater Eventer) {
 	}
 
 	clients[chunkID][idPlayer] = &pc
-
 }
 
 // Слушает события движения и отправляет данные нужным подключения
-func ListnerMoveEvent(chEventMove <-chan Eventer, w *wmap.WorldMap) {
+func OnMove(chEventMove <-chan Eventer, w *wmap.WorldMap) {
 	for {
 		select {
-		case coord := <-chEventMove:
+		case data := <-chEventMove:
 			fmt.Println(clients)
-			pls := w.GetPlayers(coord)
+			pls := w.GetPlayers(data)
 			pls.Action = action.MOVE
-			sendDataToChunck(coord, pls)
-
+			sendDataToChunk(data, pls)
 		}
-
 	}
 }
 
@@ -76,7 +75,7 @@ type ResMap struct {
 	Map    [9]chunk.Chunk `json:"gamemap"`
 }
 
-func ListnerGetMap(chGetMapEvent <-chan Eventer, w *wmap.WorldMap) {
+func OnGetMap(chGetMapEvent <-chan Eventer, w *wmap.WorldMap) {
 	for {
 		select {
 		case getMapEvent := <-chGetMapEvent:
@@ -89,40 +88,54 @@ func ListnerGetMap(chGetMapEvent <-chan Eventer, w *wmap.WorldMap) {
 			rs.Map = m
 			rs.Action = action.GET_MAP
 			for _, sl := range clients {
-				if v, ok := sl[id]; ok {
-					eventsMutex.Lock()
-					delete(sl, id)
-					eventsMutex.Unlock()
-					v.sendData(rs)
-					if _, ok := clients[c]; ok {
-						clients[c][id] = v
-						continue
-					}
-					clients[c] = map[string]*PlayerConn{}
-					clients[c][id] = v
-
+				v, ok := sl[id]
+				if !ok {
+					continue
 				}
+
+				eventsMutex.Lock()
+				delete(sl, id)
+				eventsMutex.Unlock()
+				v.sendData(rs)
+				if _, ok := clients[c]; ok {
+					clients[c][id] = v
+					continue
+				}
+				clients[c] = map[string]*PlayerConn{}
+				clients[c][id] = v
 			}
 		}
 	}
 }
-func ListnerTreeEvent(chGetMapEvent <-chan Eventer, w *wmap.WorldMap) {
+
+func OnTree(chGetMapEvent <-chan Eventer, w *wmap.WorldMap) {
 	for {
 		select {
-		case event :=<-chGetMapEvent:
-			id:= event.GetId()
-			w.Treehandler(event, id)
+		case data := <-chGetMapEvent:
+			id := data.GetId()
+			result := w.DestroyTree(data, id)
+			x, y := data.GetCoordinate()
+			sendDataToChunk(data, struct {
+				Action int `json:"action"`
+				X      int `json:"x"`
+				Y      int `json:"y"`
+				Result bool `json:"result"`
+			}{
+				action.TREE,
+				x,
+				y,
+				result,
+			})
 		}
 	}
-
-
 }
 
 // Для функций изменяющих данные,
-func sendDataToChunck(e chunk.Coordinater, data interface{}) {
-	x,y := e.GetCoordinate()
-	currentChunk := wmap.GetChunkID(x,y)
-	m:=wmap.GetCurrentPlayerMap(currentChunk)
+func sendDataToChunk(e chunk.Coordinater, data interface{}) {
+	fmt.Println(data)
+	x, y := e.GetCoordinate()
+	currentChunk := wmap.GetChunkID(x, y)
+	m := wmap.GetCurrentPlayerMap(currentChunk)
 	for _, chunkID := range m {
 		for _, conn := range clients[chunkID] {
 			conn.sendData(data)

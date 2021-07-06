@@ -1,8 +1,8 @@
 package gcontrl
 
 import (
-	"github.com/lolodin/infworld/wmap"
 	"encoding/json"
+	"github.com/lolodin/infworld/wmap"
 	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
@@ -20,10 +20,9 @@ type responsePlayer struct {
 }
 
 // Точка входа в игры, юзер отправляет нам свои данные, мы отдаем данные персонажа, уникальный ид или name через которое будет совершенно socket подключение
-func InitHandler(W *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-
-		body, _ := ioutil.ReadAll(r.Body)
+func InitHandler(woldMap *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		body, _ := ioutil.ReadAll(request.Body)
 		rp := requestPlayer{}
 		err := json.Unmarshal(body, &rp)
 		if err != nil {
@@ -34,12 +33,13 @@ func InitHandler(W *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {
 				"data":    body,
 			}).Error("Error get player data")
 		}
-		w.Header().Set("Content-Type", "application/json")
-		p, exile := W.GetPlayer(rp.Name)
-		if exile {
-			ok := p.ComparePassword(rp.Password)
+		writer.Header().Set("Content-Type", "application/json")
+
+		player, exists := woldMap.GetPlayer(rp.Name)
+		if exists {
+			ok := player.ComparePassword(rp.Password)
 			if ok {
-				resPl := responsePlayer{Error: "null", X: p.X, Y: p.Y, Name: p.Name}
+				resPl := responsePlayer{Error: "null", X: player.X, Y: player.Y, Name: player.Name}
 				res, err := json.Marshal(resPl)
 				if err != nil {
 					log.WithFields(log.Fields{
@@ -48,31 +48,28 @@ func InitHandler(W *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {
 						"error":   err,
 						"data":    resPl,
 					}).Error("Error Marshal player data")
-					w.Write([]byte("{Error: error server}"))
+					writer.Write([]byte("{Error: error server}"))
 					return
 				}
-				w.Write(res)
-				return
+				writer.Write(res)
 			}
-		} else {
-			p := wmap.NewPlayer(rp.Name, rp.Password)
-			W.AddPlayer(p)
-			resPl := responsePlayer{Error: "null", X: p.X, Y: p.Y, Name: p.Name}
-			res, err := json.Marshal(resPl)
-			if err != nil {
-				log.WithFields(log.Fields{
-					"package": "GameController",
-					"func":    "InitHandler",
-					"error":   err,
-					"data":    resPl,
-				}).Error("Error Marshal player data")
-				w.Write([]byte("{Error: error server}"))
-				return
-			}
-			w.Write(res)
 			return
-
 		}
 
+		player = wmap.NewPlayer(rp.Name, rp.Password)
+		woldMap.AddPlayer(player)
+		resPl := responsePlayer{Error: "null", X: player.X, Y: player.Y, Name: player.Name}
+		res, err := json.Marshal(resPl)
+		if err != nil {
+			log.WithFields(log.Fields{
+				"package": "GameController",
+				"func":    "InitHandler",
+				"error":   err,
+				"data":    resPl,
+			}).Error("Error Marshal player data")
+			writer.Write([]byte("{Error: error server}"))
+			return
+		}
+		writer.Write(res)
 	}
 }

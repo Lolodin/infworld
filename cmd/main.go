@@ -11,14 +11,14 @@ import (
 	_ "net/http/pprof"
 	"os"
 )
+
 var (
-chEventMove = make(chan gamereducer.Eventer)
-chEventGetMap = make(chan gamereducer.Eventer)
-chEventTree = make(chan gamereducer.Eventer)
+	chEventMove   = make(chan gamereducer.Eventer)
+	chEventGetMap = make(chan gamereducer.Eventer)
+	chEventTree   = make(chan gamereducer.Eventer)
 )
 
 func init() {
-
 	filelog, e := os.Create("log")
 	if e != nil {
 		panic("error create log file")
@@ -32,12 +32,12 @@ func main() {
 	}).Info("Server start")
 	World := wmap.NewCacheWorldMap()
 	http.HandleFunc("/init", gcontrl.InitHandler(&World))
-	http.HandleFunc("/map", gcontrl.Map_Handler(&World))
+	http.HandleFunc("/map", gcontrl.MapHandler(&World))
 	//Сигнал действия юзера
 
-	go gamereducer.ListnerMoveEvent(chEventMove, &World)
-	go gamereducer.ListnerGetMap(chEventGetMap, &World)
-	//go gamereducer.ListnerTreeEvent(chEventTree, &World)
+	go gamereducer.OnMove(chEventMove, &World)
+	go gamereducer.OnGetMap(chEventGetMap, &World)
+	go gamereducer.OnTree(chEventTree, &World)
 	http.HandleFunc("/player", playerhand.PlayerHandler(&World, chEventMove, chEventGetMap, chEventTree))
 	http.HandleFunc("/", indexHandler)
 
@@ -45,7 +45,13 @@ func main() {
 	http.Handle("/node_modules/phaser/dist/", http.StripPrefix("/node_modules/phaser/dist/", http.FileServer(http.Dir("./node_modules/phaser/dist/"))))
 	http.Handle("/Client/", http.StripPrefix("/Client/", http.FileServer(http.Dir("./Client/"))))
 	http.Handle("/Client/content/", http.StripPrefix("/Client/content/", http.FileServer(http.Dir("./Client/content/"))))
-	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+
+	port := "8080"
+	if value, ok := os.LookupEnv("PORT"); ok {
+		port = value
+	}
+
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"package": "main",

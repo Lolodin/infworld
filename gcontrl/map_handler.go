@@ -8,16 +8,17 @@ import (
 	"io/ioutil"
 	"net/http"
 )
+
 type requestMap struct {
 	X        int
 	Y        int
 	PlayerID string
 }
 
-func Map_Handler(W *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
+func MapHandler(worldMap *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {
+	return func(writer http.ResponseWriter, request *http.Request) {
 		fmt.Println("MAP HANDLER")
-		body, _ := ioutil.ReadAll(r.Body)
+		body, _ := ioutil.ReadAll(request.Body)
 
 		rm := requestMap{}
 
@@ -34,14 +35,9 @@ func Map_Handler(W *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {
 
 		c := wmap.GetChunkID(rm.X, rm.Y)
 		d := wmap.GetCurrentPlayerMap(c)
-		x := wmap.GetPlayerDrawChunkMap(d, W)
+		x := wmap.GetPlayerDrawChunkMap(d, worldMap)
 		playerMap := wmap.MapToJSON(x, rm.PlayerID)
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(playerMap)
-
+		writer.Header().Set("Content-Type", "application/json")
+		writer.Write(playerMap)
 	}
-
 }
-
-
-

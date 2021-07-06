@@ -2,7 +2,7 @@ heap profile: 4: 17072 [18: 1499136] @ heap/1048576
 1: 14336 [1: 14336] @ 0xd0fe99 0xd119dc 0xd107d7 0x1000acb 0x1003e1b 0x10054a8 0xd712e1
 #	0x1000aca	github.com/lolodin/infworld/chunk.NewChunk+0x48a		C:/Users/ilii4/go/src/deadWorld/infworld/chunk/Chunk.go:125
 #	0x1003e1a	github.com/lolodin/infworld/wmap.GetPlayerDrawChunkMap+0x21a	C:/Users/ilii4/go/src/deadWorld/infworld/wmap/Map.go:134
-#	0x10054a7	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
+#	0x10054a7	github.com/lolodin/infworld/gamereducer.OnGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
 
 1: 2304 [1: 2304] @ 0xf71d7d 0xf70b65 0xd4a9d8 0xd4a9a5 0xd4a9a5 0xd4a9a5 0xd4a9a5 0xd4a9a5 0xd3d585 0xd712e1
 #	0xf71d7c	compress/flate.(*huffmanEncoder).generate+0x23c	C:/Go/src/compress/flate/huffman_code.go:279
@@ -25,7 +25,7 @@ heap profile: 4: 17072 [18: 1499136] @ heap/1048576
 1: 48 [1: 48] @ 0x1001766 0x1003e1b 0x10054a8 0xd712e1
 #	0x1001765	github.com/lolodin/infworld/chunk.NewChunk+0x1125		C:/Users/ilii4/go/src/deadWorld/infworld/chunk/Chunk.go:216
 #	0x1003e1a	github.com/lolodin/infworld/wmap.GetPlayerDrawChunkMap+0x21a	C:/Users/ilii4/go/src/deadWorld/infworld/wmap/Map.go:134
-#	0x10054a7	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
+#	0x10054a7	github.com/lolodin/infworld/gamereducer.OnGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
 
 0: 0 [0: 0] @ 0xd6a214 0xda47b3 0xdb7bf4 0xdf8025 0xdf8de8 0xdf6cd4 0xdfb425 0xdf3679 0xffeeac 0xffecf6 0xffcd54 0xff76c3 0xff72f0 0xff7972 0x10024a5 0x1002457 0x1003ea8 0x10054a8 0xd712e1
 #	0xd6a213	reflect.mapiterinit+0x33					C:/Go/src/runtime/map.go:1330
@@ -45,14 +45,14 @@ heap profile: 4: 17072 [18: 1499136] @ heap/1048576
 #	0x10024a4	github.com/sirupsen/logrus.(*Entry).Info+0x3e4			C:/Users/ilii4/go/pkg/mod/github.com/sirupsen/logrus@v1.6.0/entry.go:304
 #	0x1002456	github.com/lolodin/infworld/wmap.(*WorldMap).AddChunk+0x396	C:/Users/ilii4/go/src/deadWorld/infworld/wmap/CacheWorldMap.go:51
 #	0x1003ea7	github.com/lolodin/infworld/wmap.GetPlayerDrawChunkMap+0x2a7	C:/Users/ilii4/go/src/deadWorld/infworld/wmap/Map.go:136
-#	0x10054a7	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
+#	0x10054a7	github.com/lolodin/infworld/gamereducer.OnGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
 
 0: 0 [1: 16] @ 0xff57e5 0xff541e 0x1000eb4 0x1003e1b 0x10054a8 0xd712e1
 #	0xff57e4	github.com/lolodin/infworld/perlinNoise.getRandomVector+0xa4	C:/Users/ilii4/go/src/deadWorld/infworld/perlinNoise/Perlin.go:56
 #	0xff541d	github.com/lolodin/infworld/perlinNoise.Noise+0x11d		C:/Users/ilii4/go/src/deadWorld/infworld/perlinNoise/Perlin.go:19
 #	0x1000eb3	github.com/lolodin/infworld/chunk.NewChunk+0x873		C:/Users/ilii4/go/src/deadWorld/infworld/chunk/Chunk.go:142
 #	0x1003e1a	github.com/lolodin/infworld/wmap.GetPlayerDrawChunkMap+0x21a	C:/Users/ilii4/go/src/deadWorld/infworld/wmap/Map.go:134
-#	0x10054a7	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
+#	0x10054a7	github.com/lolodin/infworld/gamereducer.OnGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
 
 0: 0 [2: 20480] @ 0xe1ab29 0xe1a7a3 0xe1badd 0xe1a7a3 0xe17e69 0xe17a57 0xe244d1 0x100484a 0x10050ad 0xd712e1
 #	0xe1ab28	encoding/json.mapEncoder.encode+0x148					C:/Go/src/encoding/json/encode.go:786
@@ -63,7 +63,7 @@ heap profile: 4: 17072 [18: 1499136] @ heap/1048576
 #	0xe17a56	encoding/json.(*encodeState).marshal+0xf6				C:/Go/src/encoding/json/encode.go:330
 #	0xe244d0	encoding/json.(*Encoder).Encode+0x90					C:/Go/src/encoding/json/stream.go:206
 #	0x1004849	github.com/lolodin/infworld/gamereducer.PlayerConn.sendData+0x69	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:30
-#	0x10050ac	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
+#	0x10050ac	github.com/lolodin/infworld/gamereducer.OnGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
 
 0: 0 [1: 286720] @ 0xe0a8da 0xe0a1f6 0xe0a613 0xe1a747 0xe1bd45 0xe1ad5c 0xe1a7a3 0xe1badd 0xe1a7a3 0xe17e69 0xe17a57 0xe244d1 0x100484a 0x10050ad 0xd712e1
 #	0xe0a8d9	bytes.makeSlice+0x79							C:/Go/src/bytes/buffer.go:229
@@ -79,14 +79,14 @@ heap profile: 4: 17072 [18: 1499136] @ heap/1048576
 #	0xe17a56	encoding/json.(*encodeState).marshal+0xf6				C:/Go/src/encoding/json/encode.go:330
 #	0xe244d0	encoding/json.(*Encoder).Encode+0x90					C:/Go/src/encoding/json/stream.go:206
 #	0x1004849	github.com/lolodin/infworld/gamereducer.PlayerConn.sendData+0x69	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:30
-#	0x10050ac	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
+#	0x10050ac	github.com/lolodin/infworld/gamereducer.OnGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
 
 0: 0 [1: 16] @ 0xff58bc 0xff544e 0x1000eb4 0x1003e1b 0x10054a8 0xd712e1
 #	0xff58bb	github.com/lolodin/infworld/perlinNoise.getRandomVector+0x17b	C:/Users/ilii4/go/src/deadWorld/infworld/perlinNoise/Perlin.go:52
 #	0xff544d	github.com/lolodin/infworld/perlinNoise.Noise+0x14d		C:/Users/ilii4/go/src/deadWorld/infworld/perlinNoise/Perlin.go:20
 #	0x1000eb3	github.com/lolodin/infworld/chunk.NewChunk+0x873		C:/Users/ilii4/go/src/deadWorld/infworld/chunk/Chunk.go:142
 #	0x1003e1a	github.com/lolodin/infworld/wmap.GetPlayerDrawChunkMap+0x21a	C:/Users/ilii4/go/src/deadWorld/infworld/wmap/Map.go:134
-#	0x10054a7	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
+#	0x10054a7	github.com/lolodin/infworld/gamereducer.OnGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
 
 0: 0 [1: 40960] @ 0xe0a8da 0xe0a1f6 0xe0a613 0xe1a747 0xe1bd45 0xe1ad5c 0xe1a7a3 0xe1badd 0xe1a7a3 0xe17e69 0xe17a57 0xe244d1 0x100484a 0x10050ad 0xd712e1
 #	0xe0a8d9	bytes.makeSlice+0x79							C:/Go/src/bytes/buffer.go:229
@@ -102,7 +102,7 @@ heap profile: 4: 17072 [18: 1499136] @ heap/1048576
 #	0xe17a56	encoding/json.(*encodeState).marshal+0xf6				C:/Go/src/encoding/json/encode.go:330
 #	0xe244d0	encoding/json.(*Encoder).Encode+0x90					C:/Go/src/encoding/json/stream.go:206
 #	0x1004849	github.com/lolodin/infworld/gamereducer.PlayerConn.sendData+0x69	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:30
-#	0x10050ac	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
+#	0x10050ac	github.com/lolodin/infworld/gamereducer.OnGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
 
 0: 0 [0: 0] @ 0xdb7e05 0xdf8025 0xdf6cd4 0xdfb5d5 0xdf375f 0x1004dba 0x1004d63 0xd712e1
 #	0xdb7e04	internal/fmtsort.Sort+0x3c4					C:/Go/src/internal/fmtsort/sort.go:67
@@ -111,7 +111,7 @@ heap profile: 4: 17072 [18: 1499136] @ heap/1048576
 #	0xdfb5d4	fmt.(*pp).doPrintln+0xb4					C:/Go/src/fmt/print.go:1173
 #	0xdf375e	fmt.Fprintln+0x5e						C:/Go/src/fmt/print.go:264
 #	0x1004db9	fmt.Println+0xb9						C:/Go/src/fmt/print.go:274
-#	0x1004d62	github.com/lolodin/infworld/gamereducer.ListnerMoveEvent+0x62	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:64
+#	0x1004d62	github.com/lolodin/infworld/gamereducer.OnMove+0x62	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:64
 
 0: 0 [1: 3456] @ 0xdf053f 0xdf0487 0xdf113a 0xdf453b 0xdf5cc5 0xdf7fb2 0xdf81b8 0xdf8de8 0xdf6cd4 0xdfb425 0xdf3679 0xffeeac 0xffecf6 0xffcd54 0xff76c3 0xff72f0 0xff7972 0x10024a5 0x1002457 0x1003ea8 0x10054a8 0xd712e1
 #	0xdf053e	fmt.(*buffer).write+0xfe					C:/Go/src/fmt/print.go:78
@@ -134,7 +134,7 @@ heap profile: 4: 17072 [18: 1499136] @ heap/1048576
 #	0x10024a4	github.com/sirupsen/logrus.(*Entry).Info+0x3e4			C:/Users/ilii4/go/pkg/mod/github.com/sirupsen/logrus@v1.6.0/entry.go:304
 #	0x1002456	github.com/lolodin/infworld/wmap.(*WorldMap).AddChunk+0x396	C:/Users/ilii4/go/src/deadWorld/infworld/wmap/CacheWorldMap.go:51
 #	0x1003ea7	github.com/lolodin/infworld/wmap.GetPlayerDrawChunkMap+0x2a7	C:/Users/ilii4/go/src/deadWorld/infworld/wmap/Map.go:136
-#	0x10054a7	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
+#	0x10054a7	github.com/lolodin/infworld/gamereducer.OnGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
 
 0: 0 [1: 16] @ 0xe15077 0xe0f791 0xe11ffe 0xe0f619 0xe0ed8a 0xe0e705 0x10079c7 0xd712e1
 #	0xe15076	encoding/json.(*decodeState).literalStore+0x1ed6			C:/Go/src/encoding/json/decode.go:955
@@ -151,7 +151,7 @@ heap profile: 4: 17072 [18: 1499136] @ heap/1048576
 0: 0 [1: 1792] @ 0xd0fe99 0xd119dc 0xd107d7 0x1000acb 0x1003e1b 0x10054a8 0xd712e1
 #	0x1000aca	github.com/lolodin/infworld/chunk.NewChunk+0x48a		C:/Users/ilii4/go/src/deadWorld/infworld/chunk/Chunk.go:125
 #	0x1003e1a	github.com/lolodin/infworld/wmap.GetPlayerDrawChunkMap+0x21a	C:/Users/ilii4/go/src/deadWorld/infworld/wmap/Map.go:134
-#	0x10054a7	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
+#	0x10054a7	github.com/lolodin/infworld/gamereducer.OnGetMap+0x5c7	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:88
 
 0: 0 [1: 73728] @ 0xe0a8da 0xe0a1f6 0xe0a613 0xe1ce67 0xe1aca5 0xe1a7a3 0xe1badd 0xe1a7a3 0xe17e69 0xe17a57 0xe244d1 0x100484a 0x10050ad 0xd712e1
 #	0xe0a8d9	bytes.makeSlice+0x79							C:/Go/src/bytes/buffer.go:229
@@ -166,7 +166,7 @@ heap profile: 4: 17072 [18: 1499136] @ heap/1048576
 #	0xe17a56	encoding/json.(*encodeState).marshal+0xf6				C:/Go/src/encoding/json/encode.go:330
 #	0xe244d0	encoding/json.(*Encoder).Encode+0x90					C:/Go/src/encoding/json/stream.go:206
 #	0x1004849	github.com/lolodin/infworld/gamereducer.PlayerConn.sendData+0x69	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:30
-#	0x10050ac	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
+#	0x10050ac	github.com/lolodin/infworld/gamereducer.OnGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
 
 0: 0 [1: 144] @ 0xe1e4c5 0xe1f0b2 0xe10f85 0xe0f619 0xe0ed8a 0xe0e705 0x1007e05 0xfcfc0b 0xfd1c97 0xfd33aa 0xfce9cd 0xd712e1
 #	0xe1e4c4	encoding/json.typeFields+0xe04						C:/Go/src/encoding/json/encode.go:1299
@@ -202,7 +202,7 @@ heap profile: 4: 17072 [18: 1499136] @ heap/1048576
 #	0xe17a56	encoding/json.(*encodeState).marshal+0xf6				C:/Go/src/encoding/json/encode.go:330
 #	0xe244d0	encoding/json.(*Encoder).Encode+0x90					C:/Go/src/encoding/json/stream.go:206
 #	0x1004849	github.com/lolodin/infworld/gamereducer.PlayerConn.sendData+0x69	C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:30
-#	0x10050ac	github.com/lolodin/infworld/gamereducer.ListnerGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
+#	0x10050ac	github.com/lolodin/infworld/gamereducer.OnGetMap+0x1cc		C:/Users/ilii4/go/src/deadWorld/infworld/gamereducer/reducer.go:96
 
 0: 0 [0: 0] @ 0xff27a5 0xff2605 0xff25e5 0x1007685 0xd712e1
 #	0xff27a4	github.com/gobwas/ws/wsutil.readData+0xa4				C:/Users/ilii4/go/pkg/mod/github.com/gobwas/ws@v1.0.3/wsutil/helper.go:250
