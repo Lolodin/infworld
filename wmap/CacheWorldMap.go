@@ -5,6 +5,7 @@ import (
 	"github.com/lolodin/infworld/chunk"
 	log "github.com/sirupsen/logrus"
 	"math"
+	"os"
 	"sync"
 )
 
@@ -17,6 +18,7 @@ type Mover interface {
 }
 
 type WorldMap struct {
+	Log log.FieldLogger
 	sync.Mutex
 	Chunks map[chunk.Coordinate]*chunk.Chunk
 	Player map[string]*Player
@@ -62,7 +64,14 @@ func (w *WorldMap) isChunkExist(coordinate chunk.Coordinate) bool {
 }
 
 func NewCacheWorldMap() WorldMap {
+	f, e := os.Create("WorldMap")
+	if e != nil {
+		panic("Error create log file")
+	}
+	logger := log.New()
+	logger.SetOutput(f)
 	world := WorldMap{}
+	world.Log = logger
 	world.Chunks = make(map[chunk.Coordinate]*chunk.Chunk)
 	world.Player = make(map[string]*Player)
 	return world
@@ -70,7 +79,7 @@ func NewCacheWorldMap() WorldMap {
 
 //Добавляем нового игрока в карту
 func (w *WorldMap) AddPlayer(player *Player) {
-
+w.Log.WithField("Add Player", player.Name)
 	_, ok := w.Player[player.Name]
 	if !ok {
 		fmt.Println(player.Name)
@@ -106,7 +115,7 @@ func (w *WorldMap) MovePlayer(m Mover) *chunk.Coordinate {
 
 
 	} else {
-		fmt.Println("Player is not Exile")
+		w.Log.Error("Player not found", p)
 	}
 	return nil
 
@@ -128,11 +137,11 @@ func (w *WorldMap) GetPlayers(coordinater chunk.Coordinater) Players {
 	return pls
 }
 
-// return true if Tree busy tile
+// return true если тайл занят
 func (w *WorldMap) CheckBusyTile(coordinater chunk.Coordinater) bool {
-	x,y:= coordinater.GetCoordinate()
+	//x,y:= coordinater.GetCoordinate()
 	tile := CurrentTile(coordinater)
-	chunkId := GetChunkID(x,y)
+	chunkId := GetChunkID(coordinater)
 
 	if b, ok := w.Chunks[chunkId].Map[tile]; ok {
 		return b.Busy
@@ -196,7 +205,7 @@ func CurrentTile(coordinater chunk.Coordinater) (chunk.Coordinate) {
 
 
 }
-// изменяет координаты при int  1 и -1 для функции CurrentTile
+
 func morthxy(x int) int {
 	if x == 1 {
 		x = x*8
@@ -216,7 +225,7 @@ func (w *WorldMap) Treehandler(TreeCoord chunk.Coordinater, idPlayer string)  {
 		return
 	}
 	x,y := TreeCoord.GetCoordinate()
-	id:=GetChunkID(x,y)
+	id:=GetChunkID(TreeCoord)
 	w.Lock()
 	w.Chunks[id].DestroyTree(chunk.Coordinate{x,y})
 	tile := w.Chunks[id].Map[chunk.Coordinate{X:x, Y:y}]

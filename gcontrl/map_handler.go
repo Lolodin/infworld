@@ -3,14 +3,14 @@ package gcontrl
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/lolodin/infworld/chunk"
 	"github.com/lolodin/infworld/wmap"
 	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
 )
 type requestMap struct {
-	X        int
-	Y        int
+	chunk.Coordinate
 	PlayerID string
 }
 
@@ -32,7 +32,7 @@ func Map_Handler(W *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {
 		}
 		fmt.Println(rm.X, rm.Y)
 
-		c := wmap.GetChunkID(rm.X, rm.Y)
+		c := wmap.GetChunkID(rm)
 		d := wmap.GetCurrentPlayerMap(c)
 		x := wmap.GetPlayerDrawChunkMap(d, W)
 		playerMap := wmap.MapToJSON(x, rm.PlayerID)

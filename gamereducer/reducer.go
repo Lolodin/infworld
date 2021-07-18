@@ -2,57 +2,67 @@ package gamereducer
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gobwas/ws"
 	"github.com/gobwas/ws/wsutil"
 	"github.com/lolodin/infworld/action"
 	"github.com/lolodin/infworld/chunk"
 	"github.com/lolodin/infworld/wmap"
-	"log"
+
 	"net"
 	"sync"
 )
-const VIGILANCE = 512
-var clients = make(map[chunk.Coordinate]map[string]*PlayerConn)
-var eventsMutex = sync.Mutex{}
 
+// TODO дальность видимости
+const VIGILANCE = 512
+// Структура хранения подключений
+var clients = clientmap{}
+//
+var eventsMutex = sync.Mutex{}
+// Для хранения подключений по чанкам
+type clientmap map[chunk.Coordinate]map[string]*PlayerConn
+
+// Каждый эвент должен реализовать данный интерфейс
 type Eventer interface {
 	GetId() string
 	chunk.Coordinater
 }
+// Подключение с игроком
 type PlayerConn struct {
 	wr      *wsutil.Writer
 	encoder *json.Encoder
 }
-
+// Структура для отправки данных по Websocket
 func (conn PlayerConn) sendData(i interface{}) {
 	eventsMutex.Lock()
 	e := conn.encoder.Encode(i)
 	if e != nil {
-		log.Println(e)
+
 	}
 	e = conn.wr.Flush()
 	if e != nil {
-		log.Println(e)
+
 	}
 	eventsMutex.Unlock()
 }
 
 //Добавляет соединение в чанк
 func NewPlayerConn(conn net.Conn,  coordinater Eventer) {
-    x,y := coordinater.GetCoordinate()
+
+   // x,y := coordinater.GetCoordinate()
 	idPlayer := coordinater.GetId()
-	chunkID := wmap.GetChunkID(x, y)
+	chunkID := wmap.GetChunkID(coordinater)
 	pc := PlayerConn{}
 	wr := wsutil.NewWriter(conn, ws.StateServerSide, ws.OpText)
 	encoder := json.NewEncoder(wr)
 	pc.encoder = encoder
 	pc.wr = wr
+	eventsMutex.Lock()
 	if _, ok := clients[chunkID]; !ok {
 		clients[chunkID] = map[string]*PlayerConn{}
 	}
 
 	clients[chunkID][idPlayer] = &pc
+	eventsMutex.Unlock()
 
 }
 
@@ -61,10 +71,11 @@ func ListnerMoveEvent(chEventMove <-chan Eventer, w *wmap.WorldMap) {
 	for {
 		select {
 		case coord := <-chEventMove:
-			fmt.Println(clients)
+
 			pls := w.GetPlayers(coord)
 			pls.Action = action.MOVE
-			sendDataToChunck(coord, pls)
+			clients.sendDataToChunck(coord, pls)
+
 
 		}
 
@@ -77,13 +88,13 @@ type ResMap struct {
 }
 
 func ListnerGetMap(chGetMapEvent <-chan Eventer, w *wmap.WorldMap) {
+
 	for {
 		select {
 		case getMapEvent := <-chGetMapEvent:
 			rs := ResMap{}
-			x, y := getMapEvent.GetCoordinate()
 			id := getMapEvent.GetId()
-			c := wmap.GetChunkID(x, y)
+			c := wmap.GetChunkID(getMapEvent)
 			d := wmap.GetCurrentPlayerMap(c)
 			m := wmap.GetPlayerDrawChunkMap(d, w)
 			rs.Map = m
@@ -117,15 +128,35 @@ func ListnerTreeEvent(chGetMapEvent <-chan Eventer, w *wmap.WorldMap) {
 
 
 }
+func ListnerPlayerDisconnect(chEventDisconnect <-chan Eventer, w *wmap.WorldMap) {
+	for {
+		select {
+		case event:=<-chEventDisconnect:
+	    clients.deleteConn(event)
+
+
+
+		}
+	}
+}
 
 // Для функций изменяющих данные,
-func sendDataToChunck(e chunk.Coordinater, data interface{}) {
-	x,y := e.GetCoordinate()
-	currentChunk := wmap.GetChunkID(x,y)
-	m:=wmap.GetCurrentPlayerMap(currentChunk)
-	for _, chunkID := range m {
+func(m clientmap) sendDataToChunck(e chunk.Coordinater, data interface{}) {
+	currentChunk := wmap.GetChunkID(e)
+	mp:=wmap.GetCurrentPlayerMap(currentChunk)
+	eventsMutex.Lock()
+	for _, chunkID := range mp {
 		for _, conn := range clients[chunkID] {
 			conn.sendData(data)
 		}
 	}
+	eventsMutex.Unlock()
+}
+
+func(m clientmap) deleteConn(eventer Eventer) {
+	playerID := eventer.GetId()
+	chunCoord:=wmap.GetChunkID(eventer)
+	eventsMutex.Lock()
+	delete(m[chunCoord],playerID)
+	eventsMutex.Unlock()
 }

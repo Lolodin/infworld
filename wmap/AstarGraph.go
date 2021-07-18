@@ -8,7 +8,7 @@ type Graphpath map[chunk.Coordinate][]chunk.Coordinate
 
 // сделать возврат ошибки
 func createGraph(worldMap *WorldMap, person chunk.Coordinate, target chunk.Coordinate) Graphpath {
-	Chunk := GetChunkID(person.X, person.Y)
+	Chunk := GetChunkID(person)
 
 	var stack queue = &Node{}
 	stack.addInQueue(person)

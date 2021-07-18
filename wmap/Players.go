@@ -17,6 +17,7 @@ type Player struct {
 	speed    int //скорость, стандарт 1
 
 }
+// структура для клиента
 type Players struct {
 	Action int `json:"action"`
 	P []Player `json:"players"`

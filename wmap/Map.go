@@ -11,7 +11,7 @@ import (
 type personMap [9]chunk.Chunk
 
 func (m *personMap) getTile(coordinate chunk.Coordinate) (chunk.Tile, error) {
-	chunkID := GetChunkID(coordinate.X, coordinate.Y)
+	chunkID := GetChunkID(coordinate)
 	for _, v := range m {
 		if v.ChunkID == [2]int{chunkID.X, chunkID.Y} {
 			return *v.Map[coordinate], nil
@@ -28,7 +28,8 @@ type playerMap struct {
 /*
 Получаем ID чанка из координат(персонажа\объекта и т.д.)
 */
-func GetChunkID(x, y int) chunk.Coordinate {
+func GetChunkID(coordinater chunk.Coordinater) chunk.Coordinate {
+	x,y:= coordinater.GetCoordinate()
 	tileX := float64(float64(x) / float64(chunk.CHUNKIDSIZE))
 	tileY := float64(float64(y) / float64(chunk.CHUNKIDSIZE))
 
@@ -65,10 +66,11 @@ func GetCurrentPlayerMap(currentChunkID chunk.Coordinate) [9]chunk.Coordinate {
 
 	x := coordinateX + chunk.CHUNK_SIZE
 	y := coordinateY + chunk.CHUNK_SIZE
-	CurrentMap[1] = GetChunkID(x, y)
+
+	CurrentMap[1] = GetChunkID(chunk.Coordinate{x,y})
 	x = coordinateX + chunk.CHUNK_SIZE
 	y = coordinateY
-	CurrentMap[2] = GetChunkID(x, y)
+	CurrentMap[2] = GetChunkID(chunk.Coordinate{x,y})
 	if coordinateY < 0 {
 		x = coordinateX + chunk.CHUNK_SIZE
 		y = coordinateY - chunk.CHUNK_SIZE
@@ -76,10 +78,10 @@ func GetCurrentPlayerMap(currentChunkID chunk.Coordinate) [9]chunk.Coordinate {
 		x = coordinateX + chunk.CHUNK_SIZE
 		y = coordinateY - chunk.CHUNK_SIZE - 1
 	}
-	CurrentMap[3] = GetChunkID(x, y)
+	CurrentMap[3] = GetChunkID(chunk.Coordinate{x,y})
 	x = coordinateX
 	y = coordinateY + chunk.CHUNK_SIZE
-	CurrentMap[4] = GetChunkID(x, y)
+	CurrentMap[4] = GetChunkID(chunk.Coordinate{x,y})
 	if coordinateY < 0 {
 		x = coordinateX
 		y = coordinateY - chunk.CHUNK_SIZE
@@ -87,7 +89,7 @@ func GetCurrentPlayerMap(currentChunkID chunk.Coordinate) [9]chunk.Coordinate {
 		x = coordinateX
 		y = coordinateY - chunk.CHUNK_SIZE - 1
 	}
-	CurrentMap[5] = GetChunkID(x, y)
+	CurrentMap[5] = GetChunkID(chunk.Coordinate{x,y})
 	if coordinateX < 0 {
 		x = coordinateX - chunk.CHUNK_SIZE
 		y = coordinateY + chunk.CHUNK_SIZE
@@ -95,7 +97,7 @@ func GetCurrentPlayerMap(currentChunkID chunk.Coordinate) [9]chunk.Coordinate {
 		x = coordinateX - chunk.CHUNK_SIZE - 1
 		y = coordinateY + chunk.CHUNK_SIZE
 	}
-	CurrentMap[6] = GetChunkID(x, y)
+	CurrentMap[6] = GetChunkID(chunk.Coordinate{x,y})
 	if coordinateX < 0 {
 		x = coordinateX - chunk.CHUNK_SIZE
 		y = coordinateY
@@ -103,7 +105,7 @@ func GetCurrentPlayerMap(currentChunkID chunk.Coordinate) [9]chunk.Coordinate {
 		x = coordinateX - chunk.CHUNK_SIZE - 1
 		y = coordinateY
 	}
-	CurrentMap[7] = GetChunkID(x, y)
+	CurrentMap[7] = GetChunkID(chunk.Coordinate{x,y})
 	if coordinateX < 0 && coordinateY < 0 {
 		x = coordinateX - chunk.CHUNK_SIZE
 		y = coordinateY - chunk.CHUNK_SIZE
@@ -120,7 +122,7 @@ func GetCurrentPlayerMap(currentChunkID chunk.Coordinate) [9]chunk.Coordinate {
 		}
 
 	}
-	CurrentMap[8] = GetChunkID(x, y)
+	CurrentMap[8] = GetChunkID(chunk.Coordinate{x,y})
 	return CurrentMap
 }
 

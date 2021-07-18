@@ -9,7 +9,7 @@ import (
 	"github.com/lolodin/infworld/chunk"
 	"github.com/lolodin/infworld/gamereducer"
 	"github.com/lolodin/infworld/wmap"
-	log "github.com/sirupsen/logrus"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -42,8 +42,12 @@ func(p PlayerResponseGETMAP) GetId() string {
 
 
 
-func PlayerHandler(W *wmap.WorldMap, eventMove chan<-gamereducer.Eventer, EventGetMap chan <-gamereducer.Eventer, EventTree chan <- gamereducer.Eventer) func(http.ResponseWriter, *http.Request) {
+func PlayerHandler(W *wmap.WorldMap, eventDisconnect,eventMove, EventGetMap, EventTree chan <- gamereducer.Eventer) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
+
+
+
+		//Переводим соединение в WS
 		conn, _, _, e :=ws.UpgradeHTTP(r,w)
 		if e!=nil {
 			fmt.Println(e)
@@ -54,29 +58,28 @@ func PlayerHandler(W *wmap.WorldMap, eventMove chan<-gamereducer.Eventer, EventG
 		}
 		getId := PlayerResponseMOVE{}
 		json.Unmarshal(msg, &getId)
+		defer func() {
+			if err := recover(); err != nil {
+				eventDisconnect<-getId
+				return
+
+			}
+		}()
 
 		 p, ok:=W.GetPlayer(getId.Id)
+
 		if !ok {
 			log.Panic("Player not found")
 		}
 
+
 		gamereducer.NewPlayerConn(conn,  p)
-		getId.X = 0
-		getId.Y = 0
-		go func() {
-			eventMove<-getId
-		}()
+		//getId.X = 0
+		//getId.Y = 0
+		//func() {
+		//	eventMove<-getId
+		//}()
 
-
-
-
-
-
-		//Game Loop
-		log.WithFields(log.Fields{
-			"package": "GameController",
-			"func":    "PlayerHandler",
-		}).Info("Connect player")
 
 
 		//ws handler
@@ -106,6 +109,7 @@ go func() {
 		
 		switch a {
 		case action.MOVE:
+
 				req := PlayerResponseMOVE{}
 				json.Unmarshal(msg, &req)
 				coord:=W.MovePlayer(req)
@@ -115,10 +119,12 @@ go func() {
 				}
 				req = PlayerResponseMOVE{id, *coord}
 				eventMove <- req
+
 		case action.TREE:
 				req:= PlayerResponseTREE{}
 				json.Unmarshal(msg, &req)
 				EventTree <- req
+
 
 		case action.GET_MAP:
 			req:= PlayerResponseGETMAP{}

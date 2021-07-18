@@ -1,19 +1,22 @@
+/*
+Пакет для работы с чанками
+ */
 package chunk
 
 import (
 	"github.com/lolodin/infworld/perlinNoise"
-	log "github.com/sirupsen/logrus"
 	"math/rand"
 	"strconv"
 	"sync"
 	"time"
 )
 var Mutex = sync.Mutex{}
+//
 const CHUNKIDSIZE = 16
 const TILE_SIZE = 16
 const CHUNK_SIZE = 16 * 16
 const PERLIN_SEED float32 = 2300
-
+//Общий интерфейс который должен иметь любой объект который располагается на игровой карте
 type Coordinater interface {
 	GetCoordinate() (x, y int)
 }
@@ -52,13 +55,13 @@ delete(ch.Tree, coordinate)
 Mutex.Unlock()
 
 }
-func(t *Tile) TileClear() {
+func(t *Tile) TileClearBusy() {
 	t.Busy = false
 }
 func (c Coordinate) GetCoordinate() (x, y int) {
 	return c.X, c.Y
 }
-
+// Для работы json в браузере
 func (t Coordinate) MarshalText() ([]byte, error) {
 
 	return []byte("[" + strconv.Itoa(t.X) + "," + strconv.Itoa(t.Y) + "]"), nil
@@ -69,12 +72,6 @@ func (t Coordinate) MarshalText() ([]byte, error) {
 Например [1,1]
 */
 func NewChunk(idChunk Coordinate) Chunk {
-
-	log.WithFields(log.Fields{
-		"package": "Chunk",
-		"func":    "NewChunk",
-		"idChunk": idChunk,
-	}).Info("Create new Chunk")
 	chunk := Chunk{ChunkID: [2]int{idChunk.X, idChunk.Y}}
 	var chunkXMax, chunkYMax int
 	var chunkMap map[Coordinate]*Tile

@@ -1,6 +1,7 @@
 const MOVE = 100;
 const TREE = 109
 const GETMAP = 101
+const DISCONNECT = 404
 
 export {MOVE, TREE, GETMAP}
 

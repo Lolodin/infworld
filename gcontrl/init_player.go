@@ -1,9 +1,8 @@
 package gcontrl
 
 import (
-	"github.com/lolodin/infworld/wmap"
 	"encoding/json"
-	log "github.com/sirupsen/logrus"
+	"github.com/lolodin/infworld/wmap"
 	"io/ioutil"
 	"net/http"
 )
@@ -19,7 +18,7 @@ type responsePlayer struct {
 	Y     int    `json:"y"`
 }
 
-// Точка входа в игры, юзер отправляет нам свои данные, мы отдаем данные персонажа, уникальный ид или name через которое будет совершенно socket подключение
+// Точка входа в игрy, юзер отправляет нам свои данные, мы отдаем данные персонажа, уникальный ид или name через которое будет совершенно socket подключение
 func InitHandler(W *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 
@@ -27,12 +26,7 @@ func InitHandler(W *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {
 		rp := requestPlayer{}
 		err := json.Unmarshal(body, &rp)
 		if err != nil {
-			log.WithFields(log.Fields{
-				"package": "GameController",
-				"func":    "InitHandler",
-				"error":   err,
-				"data":    body,
-			}).Error("Error get player data")
+
 		}
 		w.Header().Set("Content-Type", "application/json")
 		p, exile := W.GetPlayer(rp.Name)
@@ -42,12 +36,6 @@ func InitHandler(W *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {
 				resPl := responsePlayer{Error: "null", X: p.X, Y: p.Y, Name: p.Name}
 				res, err := json.Marshal(resPl)
 				if err != nil {
-					log.WithFields(log.Fields{
-						"package": "GameController",
-						"func":    "InitHandler",
-						"error":   err,
-						"data":    resPl,
-					}).Error("Error Marshal player data")
 					w.Write([]byte("{Error: error server}"))
 					return
 				}
@@ -60,12 +48,6 @@ func InitHandler(W *wmap.WorldMap) func(http.ResponseWriter, *http.Request) {
 			resPl := responsePlayer{Error: "null", X: p.X, Y: p.Y, Name: p.Name}
 			res, err := json.Marshal(resPl)
 			if err != nil {
-				log.WithFields(log.Fields{
-					"package": "GameController",
-					"func":    "InitHandler",
-					"error":   err,
-					"data":    resPl,
-				}).Error("Error Marshal player data")
 				w.Write([]byte("{Error: error server}"))
 				return
 			}
